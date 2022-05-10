@@ -1,7 +1,13 @@
-import Gnb from '../../components/header/Gnb';
+import Footer from '../../components/Footer/Footer';
+import Gnb from '../../components/Header/Gnb';
 
 function Login() {
-  return <Gnb />;
+  return (
+    <>
+      <Gnb />
+      <Footer />
+    </>
+  );
 }
 
 export default Login;
