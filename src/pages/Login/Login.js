@@ -1,5 +1,7 @@
+import Gnb from '../../components/header/Gnb';
+
 function Login() {
-  return <div>set</div>;
+  return <Gnb />;
 }
 
 export default Login;
