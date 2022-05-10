@@ -27,7 +27,7 @@ function Gnb() {
   return (
     <GnbSection>
       <GnbWrapper>
-        <img src="/images/svgexport-1.svg" />
+        <img src="/images/svgexport-1.svg" alt="logo" />
         {userId !== '' ? (
           <>
             <MenuList>
