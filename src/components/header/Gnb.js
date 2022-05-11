@@ -29,40 +29,33 @@ function Gnb() {
 
   return (
     <GnbSection>
-      <GnbWrapper>
-        <img src="/images/svgexport-1.svg" alt="logo" />
-        {userToken !== '' ? (
-          <>
-            <MenuList>
-              <li>입출금</li>
-              <li>입출금 내역</li>
-            </MenuList>
-            <LoginList>
-              <li>{userId}</li>
-              <FiPower className="icon" onClick={logout} />
-            </LoginList>
-          </>
-        ) : (
-          ''
-        )}
-      </GnbWrapper>
+      <img src="/images/svgexport-1.svg" alt="logo" />
+      {userToken !== '' ? (
+        <>
+          <MenuList>
+            <li>입출금</li>
+            <li>입출금 내역</li>
+          </MenuList>
+          <LoginList>
+            <li>{userId}</li>
+            <FiPower className="icon" onClick={logout} />
+          </LoginList>
+        </>
+      ) : (
+        ''
+      )}
     </GnbSection>
   );
 }
 
 const GnbSection = styled.section`
-  width: 100%;
-  height: 55px;
-  border-bottom: 1px solid #f9f9f9;
-`;
-
-const GnbWrapper = styled.nav`
   position: relative;
   display: flex;
   align-items: center;
-  max-width: 1200px;
   width: 100%;
-  height: 100%;
+  max-width: 1200px;
+  height: 55px;
+  border-bottom: 1px solid #f9f9f9;
   margin: auto;
 `;
 
