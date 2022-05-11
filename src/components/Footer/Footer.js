@@ -16,7 +16,8 @@ const FooterSection = styled.section`
 `;
 
 const FooterWrapper = styled.div`
-  width: 1200px;
+  max-width: 1200px;
+  width: 100%;
   line-height: 25px;
   background-color: #6658d3;
   margin: auto;
