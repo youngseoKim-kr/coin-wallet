@@ -16,7 +16,7 @@ const MainSection = styled.section`
   max-width: 1200px;
   margin: auto;
   height: 700px;
-  padding-top: 50px;
+  padding-top: 20px;
 `;
 
 const MainTitle = styled.span`
