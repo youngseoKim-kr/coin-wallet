@@ -1,9 +1,13 @@
 import styled from 'styled-components';
+import MainLeftSection from './MainLeftSection';
+import MainRightSection from './MainRightSection';
 
 function Main() {
   return (
     <MainSection>
       <MainTitle>입출금</MainTitle>
+      <MainLeftSection />
+      <MainRightSection />
     </MainSection>
   );
 }
@@ -12,6 +16,7 @@ const MainSection = styled.section`
   max-width: 1200px;
   margin: auto;
   height: 700px;
+  padding-top: 50px;
 `;
 
 const MainTitle = styled.span`
