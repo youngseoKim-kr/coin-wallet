@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 
 function Gnb() {
   const [userId, setUserId] = useState('');
+  const [userToken, setUserToken] = useState(
+    localStorage.getItem('userId') || ''
+  );
 
   const navigate = useNavigate();
 
@@ -28,7 +31,7 @@ function Gnb() {
     <GnbSection>
       <GnbWrapper>
         <img src="/images/svgexport-1.svg" alt="logo" />
-        {userId !== '' ? (
+        {userToken !== '' ? (
           <>
             <MenuList>
               <li>입출금</li>
@@ -57,7 +60,8 @@ const GnbWrapper = styled.nav`
   position: relative;
   display: flex;
   align-items: center;
-  width: 1200px;
+  max-width: 1200px;
+  width: 100%;
   height: 100%;
   margin: auto;
 `;
