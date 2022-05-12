@@ -6,8 +6,10 @@ function Main() {
   return (
     <MainSection>
       <MainTitle>입출금</MainTitle>
-      <MainLeftSection />
-      <MainRightSection />
+      <SubSection>
+        <MainLeftSection />
+        <MainRightSection />
+      </SubSection>
     </MainSection>
   );
 }
@@ -15,8 +17,13 @@ const MainSection = styled.section`
   width: 100%;
   max-width: 1200px;
   margin: auto;
-  height: 700px;
-  padding-top: 20px;
+  height: 800px;
+  padding-top: 30px;
+`;
+
+const SubSection = styled.section`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const MainTitle = styled.span`
