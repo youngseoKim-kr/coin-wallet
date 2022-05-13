@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import LeftCoinCard from './LeftCoinCard';
+import { CoinInfoDispatchContext } from './Context';
 
 function MainLeftSection() {
   const [searchCoinInfo, setSearchCoinInfo] = useState([]);
@@ -10,6 +11,7 @@ function MainLeftSection() {
   const [isCheck, setIsCheck] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const [coinListNow, setCoinListNow] = useState(0);
+  const CoinInfoDispatch = useContext(CoinInfoDispatchContext);
 
   useEffect(() => {
     fetch(`/data/coindata.json`, {
@@ -49,8 +51,17 @@ function MainLeftSection() {
     isCheck === true ? setIsCheck(false) : setIsCheck(true);
   };
 
-  const setColor = id => {
+  const CardClick = id => {
     setCoinListNow(id);
+
+    //클릭한 코인 정보를 오른쪽 컴포넌트로 넘겨줌
+    let coinArrayInfo = {};
+    for (let i = 0; i < allCoinInfo.length; i++) {
+      if (allCoinInfo[i].coins_blockchain_types_id === id) {
+        coinArrayInfo = allCoinInfo[i];
+      }
+    }
+    CoinInfoDispatch({ type: 'NAME_UPDATE', coinInfo: coinArrayInfo });
   };
 
   //총보유자산 구하기
@@ -112,13 +123,13 @@ function MainLeftSection() {
               return (
                 <LeftCoinCard
                   key={index}
-                  id={item.id}
+                  id={item.coins_blockchain_types_id}
                   name={item.coin_name}
-                  type={item.blockchain_type}
+                  type={item.type_name}
                   quantity={item.quantity}
                   price={item.price}
                   firstClick={coinListNow}
-                  setColor={setColor}
+                  CardClick={CardClick}
                   isCheck={isCheck}
                   isSearch={isSearch}
                 />
