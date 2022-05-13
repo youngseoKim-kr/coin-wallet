@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { FiPower } from 'react-icons/fi';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Gnb() {
@@ -11,16 +11,18 @@ function Gnb() {
 
   const navigate = useNavigate();
 
-  fetch(`/data/user.json`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then(res => res.json())
-    .then(data => {
-      setUserId(data[0].id);
-    });
+  useEffect(() => {
+    fetch(`/data/user.json`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setUserId(data[0].id);
+      });
+  }, []);
 
   const logout = () => {
     setUserId('');
