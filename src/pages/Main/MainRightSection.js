@@ -64,6 +64,7 @@ const RightMenuBar = styled.ul`
     text-align: center;
     padding-top: 25px;
     border-bottom: 3px solid ${props => props.theme.gray};
+    cursor: pointer;
   }
   .onClick {
     font-weight: 800;
