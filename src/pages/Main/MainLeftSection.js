@@ -9,7 +9,6 @@ function MainLeftSection() {
   const [myCoin, setMyCoin] = useState([]);
   const [isCheck, setIsCheck] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
-  const [totalMoney, setTotalMoney] = useState(0);
   const [coinListNow, setCoinListNow] = useState(0);
 
   useEffect(() => {
@@ -133,7 +132,7 @@ function MainLeftSection() {
 }
 
 const LeftSection = styled.section`
-  width: 48%;
+  width: 49%;
   height: 100%;
   .table {
     width: 100%;
