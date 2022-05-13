@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 import MainLeftSection from './MainLeftSection';
 import MainRightSection from './MainRightSection';
+import { GlobalContextProvider } from './Context';
 
 function Main() {
   return (
     <MainSection>
       <MainTitle>입출금</MainTitle>
       <SubSection>
-        <MainLeftSection />
-        <MainRightSection />
+        <GlobalContextProvider>
+          <MainLeftSection />
+          <MainRightSection />
+        </GlobalContextProvider>
       </SubSection>
     </MainSection>
   );

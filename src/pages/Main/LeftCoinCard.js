@@ -29,7 +29,7 @@ function MainCoinCard(props) {
   return (
     <TableList
       onClick={() => {
-        props.setColor(props.id);
+        props.CardClick(props.id);
       }}
       style={{ backgroundColor: trColor }}
     >
