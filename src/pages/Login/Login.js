@@ -8,10 +8,14 @@ function Login() {
   const [isPwActive, setIsPwActive] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
 
+  const idInputBox = useRef();
+  const pwInputBox = useRef();
+
   const inputUserId = e => {
     setUserId(e.target.value);
     setIsLogin(false);
   };
+
   const inputUserPw = e => {
     setUserPw(e.target.value);
     setIsLogin(false);
@@ -42,10 +46,6 @@ function Login() {
     checkEmail(userId) ? setIsIdActive(true) : setIsIdActive(false);
     checkPW(userPw) ? setIsPwActive(true) : setIsPwActive(false);
   };
-
-  useEffect(() => {
-    isPassedLogin();
-  }, [userId, userPw]);
 
   //로그인 버튼 클릭시 인증이 성공하면 fetch 아니면 오류 메시지
   const checkLogin = () => {
@@ -81,14 +81,16 @@ function Login() {
         }
       });
   };
-  const idInputBox = useRef();
-  const pwInputBox = useRef();
 
   const clearInput = () => {
     idInputBox.current.value = '';
     pwInputBox.current.value = '';
     idInputBox.current.focus();
   };
+
+  useEffect(() => {
+    isPassedLogin();
+  }, [userId, userPw]);
 
   return (
     <LoginSection>
@@ -154,12 +156,12 @@ const LoginWrapper = styled.div`
   width: 100%;
   height: 150px;
   margin: auto;
-  text-align: center;
   background-color: #f9f9f9;
+  text-align: center;
   .mainTitle {
+    color: #4e3ece;
     font-size: 36px;
     font-weight: 600;
-    color: #4e3ece;
     line-height: 150px;
   }
 `;
@@ -170,9 +172,9 @@ const LoginInfo = styled.div`
   margin: auto;
   margin-top: 100px;
   .subTitle {
+    color: #4e3ece;
     font-size: 28px;
     font-weight: 500;
-    color: #4e3ece;
   }
   button {
     margin-top: 50px;
@@ -195,26 +197,26 @@ const LoginId = styled.div`
   flex-direction: column;
   margin-top: 50px;
   .idTitle {
-    font-size: 16px;
-    text-align: left;
     padding: 10px;
     color: #a9a9a9;
+    font-size: 16px;
+    text-align: left;
   }
   input {
     height: 45px;
     padding-left: 10px;
-    font-size: 18px;
     border: 1px solid #a9a9a9;
+    font-size: 18px;
   }
   input:focus {
-    outline: none;
     border: 1px solid #bfb9ed;
+    outline: none;
   }
   .explanation {
-    font-size: 14px;
-    text-align: left;
     padding-top: 10px;
     color: #ee6572;
+    font-size: 14px;
+    text-align: left;
   }
 `;
 
@@ -223,27 +225,27 @@ const LoginPassWord = styled.div`
   flex-direction: column;
   margin-top: 10px;
   .pwTitle {
-    font-size: 16px;
-    text-align: left;
     padding: 10px;
     color: #a9a9a9;
+    font-size: 16px;
+    text-align: left;
   }
   input {
     height: 45px;
     padding-left: 10px;
+    border: 1px solid #a9a9a9;
     font-size: 18px;
     font-weight: 200;
-    border: 1px solid #a9a9a9;
   }
   input:focus {
-    outline: none;
     border: 1px solid #bfb9ed;
+    outline: none;
   }
   .explanation {
-    font-size: 14px;
-    text-align: left;
     padding-top: 10px;
     color: #ee6572;
+    font-size: 14px;
+    text-align: left;
   }
 `;
 

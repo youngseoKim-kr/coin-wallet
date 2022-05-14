@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { FiPower } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FiPower } from 'react-icons/fi';
+import styled from 'styled-components';
 
 function Gnb() {
   const [userId, setUserId] = useState('');
@@ -57,8 +57,8 @@ const GnbSection = styled.section`
   width: 100%;
   max-width: 1200px;
   height: 55px;
-  border-bottom: 1px solid #f9f9f9;
   margin: auto;
+  border-bottom: 1px solid #f9f9f9;
 `;
 
 const MenuList = styled.ul`
