@@ -31,7 +31,7 @@ function MainLeftSection() {
   const inputCoinName = useRef();
 
   const searchCoin = () => {
-    const searchName = inputCoinName.current.value;
+    const searchName = inputCoinName.current.value.toUpperCase();
     const result1 = allCoinInfo.filter(word => {
       return word.coin_name.includes(searchName);
     });
