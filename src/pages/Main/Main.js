@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import MainLeftSection from './MainLeftSection';
 import MainRightSection from './MainRightSection';
 import { GlobalContextProvider } from './Context';
+import styled from 'styled-components';
 
 function Main() {
   return (
@@ -19,8 +19,8 @@ function Main() {
 const MainSection = styled.section`
   width: 100%;
   max-width: 1200px;
-  margin: auto;
   height: 800px;
+  margin: auto;
   padding-top: 30px;
 `;
 

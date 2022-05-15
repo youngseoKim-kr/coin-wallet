@@ -1,20 +1,18 @@
 import { useState, useContext, useEffect } from 'react';
-import styled from 'styled-components';
 import Deposit from './MainCommponents/Deposit';
 import Withdraw from './MainCommponents/ Withdraw';
-import { CoinInfoContext } from './Context';
 import DepositWithdraw from './MainCommponents/DepositWithdraw';
+import { CoinInfoContext } from './Context';
+import styled from 'styled-components';
 
 function MainRightSection() {
-  const CoinInfo = useContext(CoinInfoContext);
-  const menuName = ['입금', '출금', '입출금 내역'];
   const [className, setClassName] = useState([true, false, false]);
   const [coinsInfo, setCoinsInfo] = useState({});
   const [section, setSection] = useState(0);
 
-  useEffect(() => {
-    setCoinsInfo(CoinInfo.name);
-  }, [CoinInfo]);
+  const CoinInfo = useContext(CoinInfoContext);
+
+  const menuName = ['입금', '출금', '입출금 내역'];
 
   const classNameChange = e => {
     const id = e.target.id;
@@ -28,7 +26,9 @@ function MainRightSection() {
     setClassName(result);
   };
 
-  console.log(section);
+  useEffect(() => {
+    setCoinsInfo(CoinInfo.name);
+  }, [CoinInfo]);
 
   return (
     <RightSection>
@@ -61,11 +61,11 @@ const RightSection = styled.section`
 `;
 
 const RightHeaderSection = styled.header`
-  font-size: 20px;
-  font-weight: 600;
   height: 62px;
   padding: 20px;
   border: 1px solid ${props => props.theme.gray};
+  font-size: 20px;
+  font-weight: 600;
 `;
 
 const RightMenuBar = styled.ul`
@@ -78,15 +78,15 @@ const RightMenuBar = styled.ul`
   li {
     width: 100%;
     height: 94%;
-    text-align: center;
     padding-top: 25px;
     border-bottom: 3px solid ${props => props.theme.gray};
+    text-align: center;
     cursor: pointer;
   }
   .onClick {
-    font-weight: 800;
-    color: ${props => props.theme.blue};
     border-bottom: 3px solid ${props => props.theme.blue};
+    color: ${props => props.theme.blue};
+    font-weight: 800;
   }
 `;
 

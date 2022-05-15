@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import { FiSearch } from 'react-icons/fi';
 import { useEffect, useRef, useState, useContext } from 'react';
+import { FiSearch } from 'react-icons/fi';
 import LeftCoinCard from './LeftCoinCard';
 import { CoinInfoDispatchContext } from './Context';
+import styled from 'styled-components';
 
 function MainLeftSection() {
   const [searchCoinInfo, setSearchCoinInfo] = useState([]);
@@ -11,24 +11,17 @@ function MainLeftSection() {
   const [isCheck, setIsCheck] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const [coinListNow, setCoinListNow] = useState(0);
+
   const CoinInfoDispatch = useContext(CoinInfoDispatchContext);
 
-  useEffect(() => {
-    fetch(`/data/coindata.json`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setAllCoinInfo(data);
-        setSearchCoinInfo(data);
-        setMyCoin(data);
-      });
-  }, []);
-
   const inputCoinName = useRef();
+
+  //총보유자산 구하기
+  const MoneyList = allCoinInfo.map(value => value.price * value.quantity);
+  const MoneyAll = MoneyList.reduce((pre, current) => pre + current, 0);
+  const totalAssets = MoneyAll.toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+    .substr(0, 15);
 
   const searchCoin = () => {
     const searchName = inputCoinName.current.value;
@@ -39,8 +32,8 @@ function MainLeftSection() {
       return word.coin_name.includes(searchName);
     });
     isCheck === true ? setSearchCoinInfo(result2) : setSearchCoinInfo(result1);
-    setMyCoin(result1);
     isSearch === true ? setIsSearch(false) : setIsSearch(true);
+    setMyCoin(result1);
   };
 
   const searchMyCoin = () => {
@@ -64,12 +57,21 @@ function MainLeftSection() {
     CoinInfoDispatch({ type: 'NAME_UPDATE', coinInfo: coinArrayInfo });
   };
 
-  //총보유자산 구하기
-  const MoneyList = allCoinInfo.map(value => value.price * value.quantity);
-  const MoneyAll = MoneyList.reduce((pre, current) => pre + current, 0);
-  const totalAssets = MoneyAll.toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    .substr(0, 15);
+  useEffect(() => {
+    fetch(`/data/coindata.json`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setAllCoinInfo(data);
+        setSearchCoinInfo(data);
+        setMyCoin(data);
+      });
+  }, []);
+
   return (
     <LeftSection>
       <LeftSectionHeader>
@@ -148,13 +150,13 @@ const LeftSection = styled.section`
   .table {
     width: 100%;
     th {
-      text-align: center;
-      vertical-align: middle;
-      background-color: ${props => props.theme.gray};
       height: 50px;
-      font-weight: 600;
+      background-color: ${props => props.theme.gray};
       border-right: 2px solid white;
       border-left: 3px solid white;
+      text-align: center;
+      vertical-align: middle;
+      font-weight: 600;
     }
   }
 `;
