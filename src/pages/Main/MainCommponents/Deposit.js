@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { FiFileText } from 'react-icons/fi';
 import { useRef, useState } from 'react';
+import { FiFileText } from 'react-icons/fi';
 import { QRCodeSVG } from 'qrcode.react';
+import styled from 'styled-components';
 
 function Deposit(props) {
   const [isCopy, setIsCopy] = useState(false);
@@ -67,8 +67,8 @@ const DepositSection = styled.section`
   width: 100%;
   height: 550px;
   .icon {
-    font-size: 38px;
     color: ${props => props.theme.blue};
+    font-size: 38px;
   }
   span {
     padding-left: 10px;
@@ -100,6 +100,7 @@ const MainAddress = styled.div`
     width: 85%;
     height: 35px;
     border: 2px solid ${props => props.theme.gray};
+    padding-left: 10px;
   }
   input:focus {
     outline: none;

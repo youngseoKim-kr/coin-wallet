@@ -1,11 +1,166 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
-function Withdraw() {
+function Withdraw(props) {
+  const [coinAppraisalAmount, setcoinAppraisalAmount] = useState(0.0);
+  const [isCoinAmount, setIsCoinAmount] = useState(true);
+
+  const CoinEnglishName = props.coinsInfo.coin_name.split(' ');
+
+  const checkAmount = e => {
+    //빈 배열이 들어오면 true 값을 주고 평가 금액이 보이도록 함
+    if (e.target.value === '') {
+      setIsCoinAmount(true);
+      setcoinAppraisalAmount(0);
+    }
+    //숫자가 아닌 값이 들어오면 true 값을 주고 값에 변화가 없도록 함
+    else if (isNaN(Number(e.target.value))) {
+      setIsCoinAmount(true);
+    }
+    //
+    else if (Number(e.target.value) <= props.coinsInfo.quantity) {
+      setIsCoinAmount(true);
+      let price = (props.coinsInfo.price * Number(e.target.value))
+        .toString()
+        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+        .substr(0, 15);
+      setcoinAppraisalAmount(price);
+    }
+    //
+    else {
+      setIsCoinAmount(false);
+    }
+  };
+
+  const withdraw = () => {
+    fetch(``, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(data => {});
+  };
+
   return (
-    <>
-      <div>Withdraw</div>
-    </>
+    <WithdrawSection>
+      <WithdrawHeader>
+        <span>블록체인 타입 선택</span>
+        <span>{props.coinsInfo.type_name}</span>
+      </WithdrawHeader>
+      <WithdrawAddress>
+        <span>출금주소</span>
+        <div className="inputSection">
+          <input type="text" />
+        </div>
+      </WithdrawAddress>
+      <WithdrawalQuantity>
+        <span>출금수량</span>
+        <div className="inputSection">
+          <input type="text" onChange={checkAmount} />
+          <span className="CoinEnglishName">{CoinEnglishName[0]}</span>
+        </div>
+        <AppraisalAmount>
+          <div>평가금액</div>
+          {isCoinAmount === true ? (
+            <div>₩ {coinAppraisalAmount}</div>
+          ) : (
+            <span className="alret">출금 가능 한도를 초과하였습니다</span>
+          )}
+        </AppraisalAmount>
+      </WithdrawalQuantity>
+      <WithdrawButton>
+        <button onClick={withdraw}>{CoinEnglishName[0]} 출금</button>
+      </WithdrawButton>
+    </WithdrawSection>
   );
 }
+
+const WithdrawSection = styled.section`
+  position: relative;
+`;
+
+const WithdrawHeader = styled.div`
+  display: flex;
+  align-items: center;
+  height: 60px;
+  span {
+    padding: 10px;
+    padding-right: 80px;
+  }
+`;
+
+const WithdrawAddress = styled.div`
+  margin-bottom: 20px;
+  span {
+    padding: 10px;
+  }
+  .inputSection {
+    margin: 10px;
+    }
+  }
+  input {
+    width: 100%;
+    height: 35px;
+    border: 2px solid ${props => props.theme.gray};
+    padding-left: 10px;
+  }
+  input:focus {
+    outline: none;
+  }
+`;
+
+const WithdrawalQuantity = styled.div`
+  span {
+    padding: 10px;
+  }
+  .inputSection {
+    position: relative;
+    margin: 10px;
+    .CoinEnglishName {
+      position: absolute;
+      top: 0px;
+      right: 10px;
+      color: ${props => props.theme.blue};
+      font-weight: 500;
+    }
+  }
+  input {
+    width: 100%;
+    height: 35px;
+    border: 2px solid ${props => props.theme.gray};
+    padding-left: 10px;
+  }
+  input:focus {
+    outline: none;
+  }
+`;
+
+const AppraisalAmount = styled.div`
+  width: 50%;
+  height: 50px;
+  float: right;
+  padding: 8px 0 0 20px;
+  background-color: ${props => props.theme.gray};
+  color: ${props => props.theme.blue};
+  .alret {
+    color: red;
+  }
+`;
+
+const WithdrawButton = styled.div`
+  position: absolute;
+  top: 500px;
+  right: 30%;
+  button {
+    width: 200px;
+    height: 40px;
+    color: white;
+    background-color: ${props => props.theme.blue};
+    border: none;
+    cursor: pointer;
+  }
+`;
 
 export default Withdraw;
