@@ -1,11 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import NoCoinInfo from './NoCoinInfo';
 import styled from 'styled-components';
 
 function Withdraw(props) {
   const [coinAppraisalAmount, setcoinAppraisalAmount] = useState(0.0);
   const [isCoinAmount, setIsCoinAmount] = useState(true);
 
-  const CoinEnglishName = props.coinsInfo.coin_name.split(' ');
+  const inputRef = useRef();
+
+  //props 값이 없으면 split를 못하는 오류 방지
+  let CoinEnglishName = '';
+  if (props.coinsInfo !== '') {
+    CoinEnglishName = props.coinsInfo.coin_name.split(' ');
+  }
 
   const checkAmount = e => {
     //빈 배열이 들어오면 true 값을 주고 평가 금액이 보이도록 함
@@ -17,7 +24,7 @@ function Withdraw(props) {
     else if (isNaN(Number(e.target.value))) {
       setIsCoinAmount(true);
     }
-    //
+    //보유수량보다 작은 값을 입력시 평가 금액에 넣어준다.
     else if (Number(e.target.value) <= props.coinsInfo.quantity) {
       setIsCoinAmount(true);
       let price = (props.coinsInfo.price * Number(e.target.value))
@@ -26,7 +33,7 @@ function Withdraw(props) {
         .substr(0, 15);
       setcoinAppraisalAmount(price);
     }
-    //
+    //보유수량보다 초과된 수량 입력시 초과메시지를 출력
     else {
       setIsCoinAmount(false);
     }
@@ -43,37 +50,53 @@ function Withdraw(props) {
       .then(data => {});
   };
 
+  //출금이 눌린 경우에서 다른 코인을 선택하면 출금 수량, 평가금액에 적힌 값 초기화
+  useEffect(() => {
+    //props 값이 없으면 초기화 시키지 않는다.
+    if (props.coinsInfo !== '') {
+      inputRef.current.value = '';
+      setIsCoinAmount(true);
+      setcoinAppraisalAmount(0);
+    }
+  }, [props]);
+
   return (
-    <WithdrawSection>
-      <WithdrawHeader>
-        <span>블록체인 타입 선택</span>
-        <span>{props.coinsInfo.type_name}</span>
-      </WithdrawHeader>
-      <WithdrawAddress>
-        <span>출금주소</span>
-        <div className="inputSection">
-          <input type="text" />
-        </div>
-      </WithdrawAddress>
-      <WithdrawalQuantity>
-        <span>출금수량</span>
-        <div className="inputSection">
-          <input type="text" onChange={checkAmount} />
-          <span className="CoinEnglishName">{CoinEnglishName[0]}</span>
-        </div>
-        <AppraisalAmount>
-          <div>평가금액</div>
-          {isCoinAmount === true ? (
-            <div>₩ {coinAppraisalAmount}</div>
-          ) : (
-            <span className="alret">출금 가능 한도를 초과하였습니다</span>
-          )}
-        </AppraisalAmount>
-      </WithdrawalQuantity>
-      <WithdrawButton>
-        <button onClick={withdraw}>{CoinEnglishName[0]} 출금</button>
-      </WithdrawButton>
-    </WithdrawSection>
+    <>
+      {props.coinsInfo === '' ? (
+        <NoCoinInfo />
+      ) : (
+        <WithdrawSection>
+          <WithdrawHeader>
+            <span>블록체인 타입 선택</span>
+            <span>{props.coinsInfo.type_name}</span>
+          </WithdrawHeader>
+          <WithdrawAddress>
+            <span>출금주소</span>
+            <div className="inputSection">
+              <input type="text" />
+            </div>
+          </WithdrawAddress>
+          <WithdrawalQuantity>
+            <span>출금수량</span>
+            <div className="inputSection">
+              <input type="text" onChange={checkAmount} ref={inputRef} />
+              <span className="CoinEnglishName">{CoinEnglishName[0]}</span>
+            </div>
+            <AppraisalAmount>
+              <div>평가금액</div>
+              {isCoinAmount === true ? (
+                <div>₩ {coinAppraisalAmount}</div>
+              ) : (
+                <span className="alret">출금 가능 한도를 초과하였습니다</span>
+              )}
+            </AppraisalAmount>
+          </WithdrawalQuantity>
+          <WithdrawButton>
+            <button onClick={withdraw}>{CoinEnglishName[0]} 출금</button>
+          </WithdrawButton>
+        </WithdrawSection>
+      )}
+    </>
   );
 }
 
@@ -98,7 +121,6 @@ const WithdrawAddress = styled.div`
   }
   .inputSection {
     margin: 10px;
-    }
   }
   input {
     width: 100%;

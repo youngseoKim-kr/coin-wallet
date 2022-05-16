@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
-import { FiFileText } from 'react-icons/fi';
 import { QRCodeSVG } from 'qrcode.react';
+import NoCoinInfo from './NoCoinInfo';
 import styled from 'styled-components';
 
 function Deposit(props) {
@@ -24,10 +24,7 @@ function Deposit(props) {
   return (
     <>
       {props.coinsInfo === '' ? (
-        <DepositSection>
-          <FiFileText className="icon" style={{ strokeWidth: '1' }} />
-          <span>왼쪽 표에서 코인을 선택해 주세요</span>
-        </DepositSection>
+        <NoCoinInfo />
       ) : (
         <DepositMain>
           <MainHeader>
@@ -59,22 +56,6 @@ function Deposit(props) {
     </>
   );
 }
-
-const DepositSection = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 550px;
-  .icon {
-    color: ${props => props.theme.blue};
-    font-size: 38px;
-  }
-  span {
-    padding-left: 10px;
-    color: ${props => props.theme.blue};
-  }
-`;
 
 const DepositMain = styled.div``;
 
