@@ -13,7 +13,7 @@
     "division": "출금",
     "quantity": 12.3434,
     "price": 3200000,
-    "status": "진행",
+    "status": "완료",
     "create_at": "2022.05.17 03:21",
     "withdrawal_address": "0xc324sdfwr23mn2332n4n234m32"
   },
@@ -28,7 +28,7 @@
   },
   {
     "id": 4,
-    "division": "입금",
+    "division": "출금",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -40,7 +40,7 @@
     "division": "입금",
     "quantity": 12.3434,
     "price": 3200000,
-    "status": "진행",
+    "status": "취소",
     "create_at": "2022.05.17 03:21",
     "withdrawal_address": "0xc324sdfwr23mn2332n4n234m32"
   },

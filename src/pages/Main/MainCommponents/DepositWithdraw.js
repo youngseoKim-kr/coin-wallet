@@ -3,6 +3,7 @@ import NoCoinInfo from './NoCoinInfo';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import { FiSearch, FiRotateCw, FiFileText } from 'react-icons/fi';
+import Pagination from 'react-js-pagination';
 import styled from 'styled-components';
 import DepositWithdrawCard from './DepositWithdrawCard';
 
@@ -11,6 +12,7 @@ function DepositWithdraw(props) {
   const [endDate, setEndDate] = useState(new Date());
   const [isCheck, setIsCheck] = useState([false, false, false]);
   const [depositWithdrawData, setDepositWithdrawData] = useState([]);
+  const [page, setPage] = useState(1);
 
   const checkList = ['입금', '출금', '전체'];
 
@@ -23,6 +25,12 @@ function DepositWithdraw(props) {
     }
     setIsCheck(result);
   };
+
+  const handlePageChange = page => {
+    setPage(page);
+  };
+
+  const searchList = () => {};
 
   useEffect(() => {
     fetch(`/data/depositWithdraw.json`, {
@@ -82,7 +90,7 @@ function DepositWithdraw(props) {
                 );
               })}
             </DepositWithdrawSelect>
-            <FiSearch className="icon" />
+            <FiSearch className="icon" onClick={searchList} />
             <button className="clear">초기화</button>
           </DepositWithdrawHeader>
           <DepositWithdrawSubHeader>
@@ -125,13 +133,60 @@ function DepositWithdraw(props) {
               </TableAllSection>
             </TableSection>
           </DepositWithdrawTable>
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={20}
+            totalItemsCount={60}
+            pageRangeDisplayed={7}
+            prevPageText="‹"
+            nextPageText="›"
+            onChange={handlePageChange}
+          />
         </DepositWithdrawSection>
       )}
     </>
   );
 }
 
-const DepositWithdrawSection = styled.section``;
+const DepositWithdrawSection = styled.section`
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    li {
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1rem;
+      border-radius: 50%;
+    }
+    li:first-child {
+      border-radius: 5px 0 0 5px;
+    }
+    li:last-child {
+      border-radius: 0 5px 5px 0;
+    }
+    a {
+      text-decoration: none;
+      color: #337ab7;
+      font-size: 1rem;
+    }
+    li.active a {
+      color: white;
+    }
+    li.active {
+      background-color: #337ab7;
+    }
+    li a.active,
+    li a:hover {
+      color: blue;
+    }
+  }
+`;
 
 const DepositWithdrawHeader = styled.header`
   display: flex;

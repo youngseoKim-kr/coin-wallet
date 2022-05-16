@@ -10,7 +10,11 @@ function DepositWithdrawCard(props) {
       <li className="price">₩ {props.price}</li>
       <div className="statusSection">
         <li className="status">{props.status}</li>
-        <button>취소</button>
+        {props.status === '진행' || props.status === '대기' ? (
+          <button>취소</button>
+        ) : (
+          ''
+        )}
       </div>
       <div className="address">
         <li className="create">{props.create}</li>
