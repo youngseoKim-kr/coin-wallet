@@ -4,6 +4,7 @@ import styled from 'styled-components';
 function MainCoinCard(props) {
   const [isChangeColor, setIsChangeColor] = useState(false);
   const [trColor, setTrColor] = useState('');
+
   const ValuationAmount = (props.price * props.quantity)
     .toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
@@ -52,10 +53,10 @@ const TableList = styled.tr`
     text-align: right;
   }
   td {
-    text-align: center;
-    vertical-align: middle;
     height: 50px;
     border-top: 2px dotted ${props => props.theme.gray};
+    text-align: center;
+    vertical-align: middle;
   }
   td:first-child {
     padding-left: 5px;

@@ -4,13 +4,14 @@ import { useRef, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 
 function Deposit(props) {
-  const inputref = useRef();
   const [isCopy, setIsCopy] = useState(false);
 
+  const inputRef = useRef();
+
   const copyAddress = () => {
-    const el = inputref.current;
+    const el = inputRef.current;
     //value 값이 없는 경우 복사 안되게
-    if (inputref.current.value !== '') {
+    if (inputRef.current.value !== '') {
       el.select();
       document.execCommand('copy');
       setIsCopy(true);
@@ -36,7 +37,7 @@ function Deposit(props) {
           <MainAddress>
             <span>입금주소</span>
             <div className="inputSection">
-              <input type="text" ref={inputref} />
+              <input type="text" ref={inputRef} />
               <button type="submit" onClick={copyAddress}>
                 복사
               </button>
@@ -70,8 +71,8 @@ const DepositSection = styled.section`
     color: ${props => props.theme.blue};
   }
   span {
-    color: ${props => props.theme.blue};
     padding-left: 10px;
+    color: ${props => props.theme.blue};
   }
 `;
 
@@ -125,13 +126,13 @@ const MainQr = styled.div`
   .qrcodeSection {
     width: 100%;
     height: 300px;
-    line-height: 300px;
     padding-left: 35%;
+    line-height: 300px;
   }
   .qrcode {
-    padding: 30px;
     width: 200px;
     height: 200px;
+    padding: 30px;
     border: 2px solid ${props => props.theme.lightGray};
   }
 `;

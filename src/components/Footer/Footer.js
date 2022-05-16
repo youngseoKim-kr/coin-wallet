@@ -16,16 +16,16 @@ const FooterSection = styled.section`
 `;
 
 const FooterWrapper = styled.div`
-  max-width: 1200px;
   width: 100%;
+  max-width: 1200px;
   line-height: 25px;
-  background-color: #6658d3;
   margin: auto;
+  background-color: #6658d3;
 `;
 
 const FooterTitle = styled.footer`
-  font-size: 13px;
   color: white;
+  font-size: 13px;
   text-align: center;
 `;
 
