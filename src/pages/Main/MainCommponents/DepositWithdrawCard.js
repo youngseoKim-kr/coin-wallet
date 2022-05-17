@@ -1,13 +1,21 @@
 import styled from 'styled-components';
 
 function DepositWithdrawCard(props) {
-  console.log(props.address);
+  const ValuationAmount = (props.price * props.quantity)
+    .toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+    .substr(0, 15);
+
+  const holdingQuantity = props.quantity
+    .toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+    .substr(0, 15);
 
   return (
     <List>
       <li className="division">{props.division}</li>
-      <li className="quantity">{props.quantity}</li>
-      <li className="price">₩ {props.price}</li>
+      <li className="quantity">{holdingQuantity}</li>
+      <li className="price">₩ {ValuationAmount}</li>
       <div className="statusSection">
         <li className="status">{props.status}</li>
         {props.status === '진행' || props.status === '대기' ? (
@@ -23,7 +31,7 @@ function DepositWithdrawCard(props) {
     </List>
   );
 }
-const List = styled.table`
+const List = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
