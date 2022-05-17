@@ -1,16 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FiSearch, FiRotateCw, FiFileText } from 'react-icons/fi';
 import DatePicker from 'react-datepicker';
 import Pagination from 'react-js-pagination';
+import CsvDownload from 'react-json-to-csv';
 import DetailListCard from './DetailListCard';
 import styled from 'styled-components';
 
+let now = new Date();
+let year = now.getFullYear();
+let month = ('00' + now.getMonth()).slice(-2);
+let day = ('00' + now.getDate()).slice(-2);
+
 function Detail() {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(
+    new Date(`${year}.${month}.${day}`)
+  );
   const [endDate, setEndDate] = useState(new Date());
-  const [isCheck, setIsCheck] = useState([false, false, false]);
+  const [isCheck, setIsCheck] = useState([false, false, true]);
   const [detailData, setDetailData] = useState([]);
+  const [isStatus, setIsStatus] = useState(false);
+  const [searchCoinName, setSearchCoinName] = useState('');
   const [page, setPage] = useState(1);
+
+  const coinRef = useRef();
 
   const checkList = ['입금', '출금', '전체'];
 
@@ -28,7 +40,37 @@ function Detail() {
     setIsCheck(result);
   };
 
-  const searchList = () => {};
+  const searchList = () => {
+    const startDay =
+      startDate.getFullYear() +
+      '.' +
+      (startDate.getMonth() + 1) +
+      '.' +
+      startDate.getDate();
+    const EndDay =
+      endDate.getFullYear() +
+      '.' +
+      (endDate.getMonth() + 1) +
+      '.' +
+      endDate.getDate();
+    console.log(EndDay, startDay);
+  };
+
+  //초기화 버튼 클릭시
+  const clearState = () => {
+    setIsCheck([false, false, true]);
+    setStartDate(new Date(`${year}.${month}.${day}`));
+    setEndDate(new Date());
+    coinRef.current.value = '';
+  };
+
+  const changeState = () => {
+    isStatus === false ? setIsStatus(true) : setIsStatus(false);
+  };
+
+  const setCoinName = e => {
+    setSearchCoinName(e.target.value);
+  };
 
   useEffect(() => {
     fetch(`/data/depositWithdraw.json`, {
@@ -49,7 +91,7 @@ function Detail() {
       <DetailSearch>
         <CoinNameSearch>
           <span>코인:</span>
-          <input type="text"></input>
+          <input type="text" onChange={setCoinName} ref={coinRef}></input>
           <FiSearch className="icon" />
         </CoinNameSearch>
         <DetailTerm>
@@ -92,14 +134,22 @@ function Detail() {
         </DetailSelect>
         <div className="searchButton">
           <FiSearch className="icon" onClick={searchList} />
-          <button className="clear">초기화</button>
+          <button className="clear" onClick={clearState}>
+            초기화
+          </button>
         </div>
         <DetailSubHeader>
           <FiRotateCw className="icon" />
           <span>새로고침</span>
-          <FiFileText className="icon" />
+          <CsvDownload
+            data={detailData}
+            filename="DetailList.csv"
+            className="csv"
+          >
+            <FiFileText className="icon" />
+          </CsvDownload>
           <span>CSV 다운로드</span>
-          <input type="checkbox" />
+          <input type="checkbox" onClick={changeState} />
           <span>진행 항목만 보기</span>
         </DetailSubHeader>
       </DetailSearch>
@@ -322,6 +372,11 @@ const DetailSubHeader = styled.div`
     color: ${props => props.theme.blue};
     margin-right: 5px;
     cursor: pointer;
+  }
+  .csv {
+    border: none;
+    background-color: transparent;
+    padding: 0;
   }
 `;
 
