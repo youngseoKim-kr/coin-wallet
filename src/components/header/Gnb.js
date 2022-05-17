@@ -26,17 +26,31 @@ function Gnb() {
 
   const logout = () => {
     setUserId('');
+    localStorage.setItem('userId', '');
+    setUserToken('');
     navigate(`/`);
+  };
+
+  const goToHome = () => {
+    userToken === '' ? navigate(`/`) : navigate(`/main`);
+  };
+
+  const goToMain = () => {
+    navigate(`/main`);
+  };
+
+  const goToDetail = () => {
+    navigate(`/detail`);
   };
 
   return (
     <GnbSection>
-      <img src="/images/svgexport-1.svg" alt="logo" />
+      <img src="/images/svgexport-1.svg" alt="logo" onClick={goToHome} />
       {userToken !== '' ? (
         <>
           <MenuList>
-            <li>입출금</li>
-            <li>입출금 내역</li>
+            <li onClick={goToMain}>입출금</li>
+            <li onClick={goToDetail}>입출금 내역</li>
           </MenuList>
           <LoginList>
             <li>{userId}</li>
@@ -59,6 +73,9 @@ const GnbSection = styled.section`
   height: 55px;
   margin: auto;
   border-bottom: 1px solid #f9f9f9;
+  img {
+    cursor: pointer;
+  }
 `;
 
 const MenuList = styled.ul`
