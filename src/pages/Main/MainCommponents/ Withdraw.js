@@ -5,6 +5,8 @@ import styled from 'styled-components';
 function Withdraw(props) {
   const [coinAppraisalAmount, setcoinAppraisalAmount] = useState(0.0);
   const [isCoinAmount, setIsCoinAmount] = useState(true);
+  const [isCoinValue, setIsCoinValue] = useState(true);
+  const [coinCount, setCoinCount] = useState('');
 
   const inputRef = useRef();
 
@@ -19,10 +21,17 @@ function Withdraw(props) {
     if (e.target.value === '') {
       setIsCoinAmount(true);
       setcoinAppraisalAmount(0);
+      setCoinCount('');
+      setIsCoinValue(true);
+    }
+    //-를 숫자로 판단해 입력 못하게 막는다.
+    //setIsCoinAmount는 true 값을 줘서 경고문구는 뜨지 않게 함
+    else if (e.target.value.includes('-')) {
+      setIsCoinValue(false);
     }
     //숫자가 아닌 값이 들어오면 true 값을 주고 값에 변화가 없도록 함
     else if (isNaN(Number(e.target.value))) {
-      setIsCoinAmount(true);
+      setIsCoinValue(false);
     }
     //보유수량보다 작은 값을 입력시 평가 금액에 넣어준다.
     else if (Number(e.target.value) <= props.coinsInfo.quantity) {
@@ -32,10 +41,14 @@ function Withdraw(props) {
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
         .substr(0, 15);
       setcoinAppraisalAmount(price);
+      setCoinCount(e.target.value);
+      setIsCoinValue(true);
     }
     //보유수량보다 초과된 수량 입력시 초과메시지를 출력
     else {
       setIsCoinAmount(false);
+      setCoinCount(e.target.value);
+      setIsCoinValue(true);
     }
   };
 
@@ -79,15 +92,26 @@ function Withdraw(props) {
           <WithdrawalQuantity>
             <span>출금수량</span>
             <div className="inputSection">
-              <input type="text" onChange={checkAmount} ref={inputRef} />
+              <input
+                type="text"
+                onChange={checkAmount}
+                ref={inputRef}
+                value={coinCount}
+              />
               <span className="CoinEnglishName">{CoinEnglishName[0]}</span>
             </div>
             <AppraisalAmount>
               <div>평가금액</div>
               {isCoinAmount === true ? (
-                <div>₩ {coinAppraisalAmount}</div>
-              ) : (
+                isCoinValue == true ? (
+                  <div>₩ {coinAppraisalAmount}</div>
+                ) : (
+                  <span className="alret">올바른 값을 입력해 주세요</span>
+                )
+              ) : isCoinValue == true ? (
                 <span className="alret">출금 가능 한도를 초과하였습니다</span>
+              ) : (
+                <span className="alret">올바른 값을 입력해 주세요</span>
               )}
             </AppraisalAmount>
           </WithdrawalQuantity>
