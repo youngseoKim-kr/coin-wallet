@@ -25,11 +25,12 @@ function Withdraw(props) {
       setIsCoinValue(true);
     }
     //-를 숫자로 판단해 입력 못하게 막는다.
-    //setIsCoinAmount는 true 값을 줘서 경고문구는 뜨지 않게 함
+    //setIsCoinValue를 false 로 줘서 올바른 값 입력하도록 경고문
     else if (e.target.value.includes('-')) {
       setIsCoinValue(false);
     }
     //숫자가 아닌 값이 들어오면 true 값을 주고 값에 변화가 없도록 함
+    //setIsCoinValue를 false 로 줘서 올바른 값 입력하도록 경고문
     else if (isNaN(Number(e.target.value))) {
       setIsCoinValue(false);
     }
