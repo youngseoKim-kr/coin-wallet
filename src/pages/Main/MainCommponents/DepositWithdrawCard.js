@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 function DepositWithdrawCard(props) {
-  console.log(props.address);
-
   return (
     <List>
       <li className="division">{props.division}</li>
@@ -23,7 +21,7 @@ function DepositWithdrawCard(props) {
     </List>
   );
 }
-const List = styled.table`
+const List = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;

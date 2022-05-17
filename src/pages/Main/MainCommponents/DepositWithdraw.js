@@ -4,14 +4,25 @@ import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import { FiSearch, FiRotateCw, FiFileText } from 'react-icons/fi';
 import Pagination from 'react-js-pagination';
-import styled from 'styled-components';
+import CsvDownload from 'react-json-to-csv';
 import DepositWithdrawCard from './DepositWithdrawCard';
+import styled from 'styled-components';
+
+let now = new Date();
+let year = now.getFullYear();
+let month = ('00' + now.getMonth()).slice(-2);
+let day = ('00' + now.getDate()).slice(-2);
+
+let nowResult = year + '.' + month + '.' + day;
 
 function DepositWithdraw(props) {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [isCheck, setIsCheck] = useState([false, false, false]);
   const [depositWithdrawData, setDepositWithdrawData] = useState([]);
+  const [startDate, setStartDate] = useState(
+    new Date(`${year}.${month}.${day}`)
+  );
+  const [endDate, setEndDate] = useState(new Date());
+  const [isCheck, setIsCheck] = useState([false, false, true]);
+  const [isStatus, setIsStatus] = useState(false);
   const [page, setPage] = useState(1);
 
   const checkList = ['입금', '출금', '전체'];
@@ -30,7 +41,28 @@ function DepositWithdraw(props) {
     setPage(page);
   };
 
-  const searchList = () => {};
+  const searchList = () => {
+    fetch(``, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        access_token: localStorage.getItem('userId'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {});
+  };
+
+  //초기화 버튼 클릭시
+  const clearState = () => {
+    setIsCheck([false, false, true]);
+    setStartDate(new Date(`${year}.${month}.${day}`));
+    setEndDate(new Date());
+  };
+
+  const changeState = () => {
+    isStatus === false ? setIsStatus(true) : setIsStatus(false);
+  };
 
   useEffect(() => {
     fetch(`/data/depositWithdraw.json`, {
@@ -44,6 +76,8 @@ function DepositWithdraw(props) {
         setDepositWithdrawData(data);
       });
   }, []);
+
+  console.log(isStatus);
 
   return (
     <>
@@ -91,14 +125,22 @@ function DepositWithdraw(props) {
               })}
             </DepositWithdrawSelect>
             <FiSearch className="icon" onClick={searchList} />
-            <button className="clear">초기화</button>
+            <button className="clear" onClick={clearState}>
+              초기화
+            </button>
           </DepositWithdrawHeader>
           <DepositWithdrawSubHeader>
-            <input type="checkbox" />
+            <input type="checkbox" onClick={changeState} />
             <span>진행 항목만 보기</span>
             <FiRotateCw className="icon" />
             <span>새로고침</span>
-            <FiFileText className="icon" />
+            <CsvDownload
+              data={depositWithdrawData}
+              filename="DepositWithdrawList.csv"
+              className="csv"
+            >
+              <FiFileText className="icon" />
+            </CsvDownload>
             <span>CSV 다운로드</span>
           </DepositWithdrawSubHeader>
           <DepositWithdrawTable>
@@ -262,6 +304,11 @@ const DepositWithdrawSubHeader = styled.div`
     color: ${props => props.theme.blue};
     margin-right: 5px;
     cursor: pointer;
+  }
+  .csv {
+    border: none;
+    background-color: transparent;
+    padding: 0;
   }
 `;
 
