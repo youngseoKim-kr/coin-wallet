@@ -42,6 +42,20 @@ function DepositWithdraw(props) {
   };
 
   const searchList = () => {
+    const startDay =
+      startDate.getFullYear() +
+      '.' +
+      (startDate.getMonth() + 1) +
+      '.' +
+      startDate.getDate();
+    const EndDay =
+      endDate.getFullYear() +
+      '.' +
+      (endDate.getMonth() + 1) +
+      '.' +
+      endDate.getDate();
+    console.log(EndDay, startDay);
+
     fetch(``, {
       method: 'GET',
       headers: {
