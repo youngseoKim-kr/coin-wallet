@@ -2,6 +2,8 @@
   {
     "id": 1,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.34343456789,
     "price": 200000123123123,
     "status": "진행",
@@ -11,6 +13,8 @@
   {
     "id": 2,
     "division": "출금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "완료",
@@ -20,6 +24,8 @@
   {
     "id": 3,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-10",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -29,6 +35,8 @@
   {
     "id": 4,
     "division": "출금",
+    "name": "이더리움",
+    "type": "ERC-10",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -38,6 +46,8 @@
   {
     "id": 5,
     "division": "입금",
+    "name": "비트코인",
+    "type": "비트코인",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "취소",
@@ -47,6 +57,8 @@
   {
     "id": 6,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -56,6 +68,8 @@
   {
     "id": 7,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -65,6 +79,8 @@
   {
     "id": 8,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -74,6 +90,8 @@
   {
     "id": 9,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -83,6 +101,8 @@
   {
     "id": 10,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -92,6 +112,8 @@
   {
     "id": 11,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -101,6 +123,8 @@
   {
     "id": 1,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -110,6 +134,8 @@
   {
     "id": 12,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
@@ -119,6 +145,8 @@
   {
     "id": 13,
     "division": "입금",
+    "name": "비트코인",
+    "type": "ERC-20",
     "quantity": 12.3434,
     "price": 3200000,
     "status": "진행",
