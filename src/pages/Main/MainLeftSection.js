@@ -54,21 +54,38 @@ function MainLeftSection() {
         coinArrayInfo = allCoinInfo[i];
       }
     }
+    //클릭한 곳의 주소값 받아오기
+    fetch(`http://3.36.65.166:8000/assets/address`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        access_token: localStorage.getItem('userId'),
+      },
+      body: JSON.stringify({
+        coinId: coinArrayInfo.coin_id,
+        coinBlockchainTypeId: coinArrayInfo.coins_blockchain_types_id,
+        blockchainTypeId: coinArrayInfo.blockchain_type_id,
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {});
+
     CoinInfoDispatch({ type: 'NAME_UPDATE', coinInfo: coinArrayInfo });
   };
 
   useEffect(() => {
-    fetch(`/data/coindata.json`, {
+    fetch(`http://3.36.65.166:8000/assets`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        access_token: localStorage.getItem('userId'),
       },
     })
       .then(res => res.json())
       .then(data => {
-        setAllCoinInfo(data);
-        setSearchCoinInfo(data);
-        setMyCoin(data);
+        setAllCoinInfo(data.assetList);
+        setSearchCoinInfo(data.assetList);
+        setMyCoin(data.assetList);
       });
   }, []);
 
@@ -126,6 +143,9 @@ function MainLeftSection() {
                 <LeftCoinCard
                   key={index}
                   id={item.coins_blockchain_types_id}
+                  asset_id={item.asset_id}
+                  coin_id={item.coin_id}
+                  blockchain_id={item.blockchain_type_id}
                   name={item.coin_name}
                   type={item.type_name}
                   quantity={item.quantity}
