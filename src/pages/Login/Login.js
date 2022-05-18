@@ -55,7 +55,7 @@ function Login() {
   };
 
   const handleLogin = () => {
-    fetch(``, {
+    fetch(`http://3.36.65.166:8000/users/login`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -68,16 +68,18 @@ function Login() {
     })
       .then(res => res.json())
       .then(result => {
-        // console.log(result);
         //통신오류
         if (result.message === 'INVALID_USER') {
           setIsLogin(true);
           clearInput();
         }
         // 성공시 url 이동
-        else if (result.message === 'Sign in succesful') {
+        else if (result.message === 'INVALID_VALUES') {
+          setIsLogin(true);
+          clearInput();
+        } else {
           alert('로그인 성공!');
-          window.location.reload();
+          localStorage.setItem('userId', result.access_token);
         }
       });
   };
