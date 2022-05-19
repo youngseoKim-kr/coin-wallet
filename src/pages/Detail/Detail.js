@@ -297,12 +297,11 @@ const DetailSection = styled.section`
     align-items: center;
     height: 40px;
     li {
-      display: inline-block;
-      width: 25px;
-      height: 25px;
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 25px;
+      height: 25px;
       font-size: 1rem;
       border-radius: 50%;
     }

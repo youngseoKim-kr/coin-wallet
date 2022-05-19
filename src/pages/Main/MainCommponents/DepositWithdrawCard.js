@@ -63,8 +63,8 @@ const List = styled.div`
     padding-left: 5px;
     button {
       width: 30px;
-      border: none;
       margin: 20px 0 0 0;
+      border: none;
       color: white;
       background-color: red;
       font-size: 9px;
@@ -72,8 +72,8 @@ const List = styled.div`
     }
   }
   .address {
-    padding-left: 20px;
     width: 200px;
+    padding-left: 20px;
     text-align: left;
     word-break: break-all;
     .create {
