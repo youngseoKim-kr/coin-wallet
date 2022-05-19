@@ -12,16 +12,20 @@ function Gnb() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`/data/user.json`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setUserId(data[0].id);
-      });
+    const token = localStorage.getItem('userId');
+    if (token !== '') {
+      fetch(`http://3.36.65.166:8000/users/info`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          access_token: localStorage.getItem('userId'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          setUserId(data.userEmail);
+        });
+    }
   }, []);
 
   const logout = () => {

@@ -9,6 +9,7 @@ function Withdraw(props) {
   const [coinCount, setCoinCount] = useState('');
 
   const inputRef = useRef();
+  const addressInputRef = useRef();
 
   //props 값이 없으면 split를 못하는 오류 방지
   let CoinEnglishName = '';
@@ -21,8 +22,8 @@ function Withdraw(props) {
     if (e.target.value === '') {
       setIsCoinAmount(true);
       setcoinAppraisalAmount(0);
-      setCoinCount('');
       setIsCoinValue(true);
+      setCoinCount('');
     }
     //-를 숫자로 판단해 입력 못하게 막는다.
     //setIsCoinValue를 false 로 줘서 올바른 값 입력하도록 경고문
@@ -42,26 +43,47 @@ function Withdraw(props) {
         .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
         .substr(0, 15);
       setcoinAppraisalAmount(price);
-      setCoinCount(e.target.value);
       setIsCoinValue(true);
+      setCoinCount(e.target.value);
     }
     //보유수량보다 초과된 수량 입력시 초과메시지를 출력
     else {
       setIsCoinAmount(false);
-      setCoinCount(e.target.value);
       setIsCoinValue(true);
     }
   };
 
   const withdraw = () => {
-    fetch(``, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(data => {});
+    const inputValue = inputRef.current.value;
+    const addressValue = addressInputRef.current.value;
+
+    if (
+      inputValue.length !== 0 &&
+      isCoinAmount !== false &&
+      addressValue !== ''
+    ) {
+      fetch(`http://3.36.65.166:8000/withdrawals`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          access_token: localStorage.getItem('userId'),
+        },
+        body: JSON.stringify({
+          assetId: props.coinsInfo.asset_id,
+          blockchainTypeId: props.coinsInfo.blockchain_type_id,
+          withdrawalAddress: addressValue,
+          quantity: Number(inputValue),
+        }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 201) {
+            alert('출금에 성공했습니다.');
+            inputRef.current.value = '';
+            addressInputRef.current.value = '';
+          }
+        });
+    }
   };
 
   //출금이 눌린 경우에서 다른 코인을 선택하면 출금 수량, 평가금액에 적힌 값 초기화
@@ -87,7 +109,7 @@ function Withdraw(props) {
           <WithdrawAddress>
             <span>출금주소</span>
             <div className="inputSection">
-              <input type="text" />
+              <input type="text" ref={addressInputRef} />
             </div>
           </WithdrawAddress>
           <WithdrawalQuantity>

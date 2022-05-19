@@ -19,12 +19,34 @@ function Detail() {
   const [isCheck, setIsCheck] = useState([false, false, true]);
   const [detailData, setDetailData] = useState([]);
   const [isStatus, setIsStatus] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
   const [searchCoinName, setSearchCoinName] = useState('');
   const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const [csv, setCsv] = useState([]);
+  const [reData, setReDate] = useState([
+    new Date(`${year}.${month}.${day}`),
+    new Date(),
+    '',
+  ]);
+  const [searchName, setSearchName] = useState('');
 
   const coinRef = useRef();
 
   const checkList = ['입금', '출금', '전체'];
+
+  const startDay =
+    reData[0].getFullYear() +
+    '.' +
+    (reData[0].getMonth() + 1) +
+    '.' +
+    reData[0].getDate();
+  const EndDay =
+    reData[1].getFullYear() +
+    '.' +
+    (reData[1].getMonth() + 1) +
+    '.' +
+    reData[1].getDate();
 
   const handlePageChange = page => {
     setPage(page);
@@ -41,19 +63,21 @@ function Detail() {
   };
 
   const searchList = () => {
-    const startDay =
-      startDate.getFullYear() +
-      '.' +
-      (startDate.getMonth() + 1) +
-      '.' +
-      startDate.getDate();
-    const EndDay =
-      endDate.getFullYear() +
-      '.' +
-      (endDate.getMonth() + 1) +
-      '.' +
-      endDate.getDate();
-    console.log(EndDay, startDay);
+    let result = [];
+    let detailTypeName = '';
+    for (let i = 0; i < isCheck.length; i++) {
+      if (isCheck[i] === true && checkList[i] !== '전체') {
+        detailTypeName = checkList[i];
+      }
+    }
+    result[0] = startDate;
+    result[1] = endDate;
+    result[2] = detailTypeName;
+    setReDate(result);
+  };
+
+  const searchNameList = () => {
+    setSearchName(coinRef.current.value);
   };
 
   //초기화 버튼 클릭시
@@ -67,23 +91,48 @@ function Detail() {
   const changeState = () => {
     isStatus === false ? setIsStatus(true) : setIsStatus(false);
   };
+  const setClickType = () => {
+    isRefresh === false ? setIsRefresh(true) : setIsRefresh(false);
+  };
 
   const setCoinName = e => {
     setSearchCoinName(e.target.value);
   };
 
   useEffect(() => {
-    fetch(`/data/depositWithdraw.json`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    let statusName = '';
+    isStatus === true ? (statusName = '진행') : (statusName = '');
+
+    fetch(
+      `http://3.36.65.166:8000/details?pageCount=${page}&startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}&search=${searchCoinName}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          access_token: localStorage.getItem('userId'),
+        },
+      }
+    )
       .then(res => res.json())
       .then(data => {
-        setDetailData(data);
+        setDetailData(data.detailList);
+        setTotalPage(data.detailTotalPageCount[0].total_row);
       });
-  }, []);
+    fetch(
+      `http://3.36.65.166:8000/details?startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}&search=${searchCoinName}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          access_token: localStorage.getItem('userId'),
+        },
+      }
+    )
+      .then(res => res.json())
+      .then(data => {
+        setCsv(data.detailList);
+      });
+  }, [isStatus, reData, isRefresh, page, searchName]);
 
   return (
     <DetailSection>
@@ -92,7 +141,7 @@ function Detail() {
         <CoinNameSearch>
           <span>코인:</span>
           <input type="text" onChange={setCoinName} ref={coinRef}></input>
-          <FiSearch className="icon" />
+          <FiSearch className="icon" onClick={searchNameList} />
         </CoinNameSearch>
         <DetailTerm>
           <span>기간:</span>
@@ -139,13 +188,9 @@ function Detail() {
           </button>
         </div>
         <DetailSubHeader>
-          <FiRotateCw className="icon" />
+          <FiRotateCw className="icon" onClick={setClickType} />
           <span>새로고침</span>
-          <CsvDownload
-            data={detailData}
-            filename="DetailList.csv"
-            className="csv"
-          >
+          <CsvDownload data={csv} filename="DetailList.csv" className="csv">
             <FiFileText className="icon" />
           </CsvDownload>
           <span>CSV 다운로드</span>
@@ -194,15 +239,15 @@ function Detail() {
               return (
                 <DetailListCard
                   key={index}
-                  id={value.id}
-                  name={value.name}
-                  type={value.type}
-                  division={value.division}
+                  id={value.row_id}
+                  name={value.coin_name}
+                  type={value.type_name}
+                  division={value.detail_type}
                   quantity={value.quantity}
                   price={value.price}
                   status={value.status}
-                  create={value.create_at}
-                  address={value.withdrawal_address}
+                  create={value.update_at}
+                  address={value.address}
                 />
               );
             })}
@@ -212,8 +257,8 @@ function Detail() {
       <Pagination
         activePage={page}
         itemsCountPerPage={20}
-        totalItemsCount={60}
-        pageRangeDisplayed={7}
+        totalItemsCount={totalPage}
+        pageRangeDisplayed={5}
         prevPageText="‹"
         nextPageText="›"
         onChange={handlePageChange}

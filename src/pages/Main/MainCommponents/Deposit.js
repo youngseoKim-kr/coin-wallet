@@ -1,26 +1,21 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import NoCoinInfo from './NoCoinInfo';
 import styled from 'styled-components';
 
 function Deposit(props) {
   const [isCopy, setIsCopy] = useState(false);
-
   const inputRef = useRef();
 
   const copyAddress = () => {
-    const el = inputRef.current;
-    //value 값이 없는 경우 복사 안되게
-    if (inputRef.current.value !== '') {
-      el.select();
-      document.execCommand('copy');
-      setIsCopy(true);
+    navigator.clipboard.writeText(props.coinsInfo.address);
+    setIsCopy(true);
 
-      setTimeout(() => {
-        setIsCopy(false);
-      }, 3000);
-    }
+    setTimeout(() => {
+      setIsCopy(false);
+    }, 3000);
   };
+
   return (
     <>
       {props.coinsInfo === '' ? (
@@ -34,7 +29,9 @@ function Deposit(props) {
           <MainAddress>
             <span>입금주소</span>
             <div className="inputSection">
-              <input type="text" ref={inputRef} />
+              <div className="inputAddress" ref={inputRef}>
+                {props.coinsInfo.address}
+              </div>
               <button type="submit" onClick={copyAddress}>
                 복사
               </button>
@@ -48,7 +45,7 @@ function Deposit(props) {
           <MainQr>
             <span>QR CODE</span>
             <div className="qrcodeSection">
-              <QRCodeSVG className="qrcode" value="asdfsdfsdf@#$@#$WEFDWERF" />
+              <QRCodeSVG className="qrcode" value={props.coinsInfo.address} />
             </div>
           </MainQr>
         </DepositMain>
@@ -75,13 +72,15 @@ const MainAddress = styled.div`
     padding: 10px;
   }
   .inputSection {
+    display: flex;
     margin: 10px;
   }
-  input {
+  .inputAddress {
     width: 85%;
     height: 35px;
     border: 2px solid ${props => props.theme.gray};
-    padding-left: 10px;
+    padding: 5px 0 0 10px;
+    overflow: scroll;
   }
   input:focus {
     outline: none;

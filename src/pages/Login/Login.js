@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 function Login() {
@@ -10,6 +11,8 @@ function Login() {
 
   const idInputBox = useRef();
   const pwInputBox = useRef();
+
+  const navigate = useNavigate();
 
   const inputUserId = e => {
     setUserId(e.target.value);
@@ -80,6 +83,8 @@ function Login() {
         } else {
           alert('로그인 성공!');
           localStorage.setItem('userId', result.access_token);
+          navigate('/main');
+          window.location.reload();
         }
       });
   };

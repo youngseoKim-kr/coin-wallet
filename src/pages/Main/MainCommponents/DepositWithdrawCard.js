@@ -26,7 +26,7 @@ function DepositWithdrawCard(props) {
       </div>
       <div className="address">
         <li className="create">{props.create}</li>
-        <li>{props.address}</li>
+        <li className="addressInput">{props.address}</li>
       </div>
     </List>
   );
@@ -81,6 +81,11 @@ const List = styled.div`
     }
     li {
       padding: 5px;
+    }
+    .addressInput {
+      width: 200px;
+      height: 35px;
+      overflow: scroll;
     }
   }
 `;
