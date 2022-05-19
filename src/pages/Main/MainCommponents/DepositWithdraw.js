@@ -23,9 +23,30 @@ function DepositWithdraw(props) {
   const [endDate, setEndDate] = useState(new Date());
   const [isCheck, setIsCheck] = useState([false, false, true]);
   const [isStatus, setIsStatus] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
   const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+  const [csv, setCsv] = useState([]);
+  const [reData, setReDate] = useState([
+    new Date(`${year}.${month}.${day}`),
+    new Date(),
+    '',
+  ]);
 
   const checkList = ['입금', '출금', '전체'];
+
+  const startDay =
+    reData[0].getFullYear() +
+    '.' +
+    (reData[0].getMonth() + 1) +
+    '.' +
+    reData[0].getDate();
+  const EndDay =
+    reData[1].getFullYear() +
+    '.' +
+    (reData[1].getMonth() + 1) +
+    '.' +
+    reData[1].getDate();
 
   const changeBackgroundColor = e => {
     const id = e.target.id;
@@ -41,30 +62,18 @@ function DepositWithdraw(props) {
     setPage(page);
   };
 
-  const searchList = () => {
-    const startDay =
-      startDate.getFullYear() +
-      '.' +
-      (startDate.getMonth() + 1) +
-      '.' +
-      startDate.getDate();
-    const EndDay =
-      endDate.getFullYear() +
-      '.' +
-      (endDate.getMonth() + 1) +
-      '.' +
-      endDate.getDate();
-    console.log(EndDay, startDay);
-
-    fetch(``, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        access_token: localStorage.getItem('userId'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => {});
+  const searchList = page => {
+    let result = [];
+    let detailTypeName = '';
+    for (let i = 0; i < isCheck.length; i++) {
+      if (isCheck[i] === true && checkList[i] !== '전체') {
+        detailTypeName = checkList[i];
+      }
+    }
+    result[0] = startDate;
+    result[1] = endDate;
+    result[2] = detailTypeName;
+    setReDate(result);
   };
 
   //초기화 버튼 클릭시
@@ -77,21 +86,46 @@ function DepositWithdraw(props) {
   const changeState = () => {
     isStatus === false ? setIsStatus(true) : setIsStatus(false);
   };
+  const setClickType = () => {
+    isRefresh === false ? setIsRefresh(true) : setIsRefresh(false);
+  };
 
   useEffect(() => {
-    fetch(`/data/depositWithdraw.json`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setDepositWithdrawData(data);
-      });
-  }, []);
+    let statusName = '';
+    isStatus === true ? (statusName = '진행') : (statusName = '');
 
-  console.log(isStatus);
+    if (props.coinsInfo !== '') {
+      fetch(
+        `http://3.36.65.166:8000/details?coinId=${props.coinsInfo.coin_id}&blockchainTypeId=${props.coinsInfo.blockchain_type_id}&pageCount=${page}&startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            access_token: localStorage.getItem('userId'),
+          },
+        }
+      )
+        .then(res => res.json())
+        .then(data => {
+          setDepositWithdrawData(data.detailList);
+          setTotalPage(data.detailTotalPageCount[0].total_row);
+        });
+      fetch(
+        `http://3.36.65.166:8000/details?coinId=${props.coinsInfo.coin_id}&blockchainTypeId=${props.coinsInfo.blockchain_type_id}&startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            access_token: localStorage.getItem('userId'),
+          },
+        }
+      )
+        .then(res => res.json())
+        .then(data => {
+          setCsv(data.detailList);
+        });
+    }
+  }, [isStatus, props.coinsInfo.coin_id, reData, isRefresh, page]);
 
   return (
     <>
@@ -146,10 +180,10 @@ function DepositWithdraw(props) {
           <DepositWithdrawSubHeader>
             <input type="checkbox" onClick={changeState} />
             <span>진행 항목만 보기</span>
-            <FiRotateCw className="icon" />
+            <FiRotateCw className="icon" onClick={setClickType} />
             <span>새로고침</span>
             <CsvDownload
-              data={depositWithdrawData}
+              data={csv}
               filename="DepositWithdrawList.csv"
               className="csv"
             >
@@ -176,13 +210,13 @@ function DepositWithdraw(props) {
                   return (
                     <DepositWithdrawCard
                       key={index}
-                      id={value.id}
-                      division={value.division}
+                      id={value.row_id}
+                      division={value.detail_type}
                       quantity={value.quantity}
                       price={value.price}
                       status={value.status}
-                      create={value.create_at}
-                      address={value.withdrawal_address}
+                      create={value.update_at}
+                      address={value.address}
                     />
                   );
                 })}
@@ -192,8 +226,8 @@ function DepositWithdraw(props) {
           <Pagination
             activePage={page}
             itemsCountPerPage={20}
-            totalItemsCount={60}
-            pageRangeDisplayed={7}
+            totalItemsCount={totalPage}
+            pageRangeDisplayed={5}
             prevPageText="‹"
             nextPageText="›"
             onChange={handlePageChange}

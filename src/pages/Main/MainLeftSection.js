@@ -54,6 +54,7 @@ function MainLeftSection() {
         coinArrayInfo = allCoinInfo[i];
       }
     }
+
     //클릭한 곳의 주소값 받아오기
     fetch(`http://3.36.65.166:8000/assets/address`, {
       method: 'POST',
@@ -68,9 +69,10 @@ function MainLeftSection() {
       }),
     })
       .then(res => res.json())
-      .then(data => {});
-
-    CoinInfoDispatch({ type: 'NAME_UPDATE', coinInfo: coinArrayInfo });
+      .then(data => {
+        coinArrayInfo.address = data.assetAddress[0].deposit_address;
+        CoinInfoDispatch({ type: 'NAME_UPDATE', coinInfo: coinArrayInfo });
+      });
   };
 
   useEffect(() => {
