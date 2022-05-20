@@ -4,7 +4,7 @@ function Footer() {
   return (
     <FooterSection>
       <FooterWrapper>
-        <FooterTitle>2018-2021 PROBIT All Right Reserved</FooterTitle>
+        <FooterTitle>2018-2021 YOUNGSEO All Right Reserved</FooterTitle>
       </FooterWrapper>
     </FooterSection>
   );

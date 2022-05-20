@@ -49,7 +49,7 @@ function Gnb() {
 
   return (
     <GnbSection>
-      <img src="/images/svgexport-1.svg" alt="logo" onClick={goToHome} />
+      <div onClick={goToHome}>YOUNGSEO BIT</div>
       {userToken !== '' ? (
         <>
           <MenuList>
@@ -79,6 +79,11 @@ const GnbSection = styled.section`
   border-bottom: 1px solid #f9f9f9;
   img {
     cursor: pointer;
+  }
+  div {
+    font-size: 18px;
+    font-weight: 800;
+    color: blue;
   }
 `;
 
