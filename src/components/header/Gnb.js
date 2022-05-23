@@ -84,6 +84,7 @@ const GnbSection = styled.section`
     font-size: 18px;
     font-weight: 800;
     color: blue;
+    cursor: pointer;
   }
 `;
 
