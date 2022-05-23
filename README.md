@@ -2,7 +2,7 @@
 
 <br/>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/vgL40S1QpMk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![virtual asset wallet](https://i.ytimg.com/an_webp/vgL40S1QpMk/mqdefault_6s.webp?du=3000&sqp=COuZq5QG&rs=AOn4CLBcXGkyy4bLqWka0Ti8KT3kKT9YBQ)](https://youtu.be/vgL40S1QpMk)
 
 <br/>
 
