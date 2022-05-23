@@ -4,7 +4,7 @@ import Detail from './pages/Detail/Detail';
 import Login from './pages/Login/Login';
 import Main from './pages/Main/Main';
 import Footer from './components/Footer/Footer';
-import Gnb from './components/Header/Gnb';
+import Gnb from './components/header/Gnb';
 import theme from './styles/theme';
 import { ThemeProvider } from 'styled-components';
 
