@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import notaionConversion from '../../utils/ notationConversion';
 
-function MainCoinCard(props) {
+function CoinListCard(props) {
   const [isChangeColor, setIsChangeColor] = useState(false);
   const [trColor, setTrColor] = useState('');
 
-  const ValuationAmount = (props.price * props.quantity)
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    .substr(0, 15);
-
-  const holdingQuantity = props.quantity
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    .substr(0, 15);
+  const ValuationAmount = notaionConversion(props.price * props.quantity);
+  const holdingQuantity = notaionConversion(props.quantity);
   const nameSub = props.name.split(' ');
 
   //보유화폐만 보기 , 검색 시 클릭 된 값 변경
@@ -66,4 +60,4 @@ const TableList = styled.tr`
   }
 `;
 
-export default MainCoinCard;
+export default CoinListCard;

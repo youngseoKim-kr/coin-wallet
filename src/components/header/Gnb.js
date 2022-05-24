@@ -4,16 +4,13 @@ import { FiPower } from 'react-icons/fi';
 import styled from 'styled-components';
 
 function Gnb() {
-  const [userId, setUserId] = useState('');
-  const [userToken, setUserToken] = useState(
-    localStorage.getItem('userId') || ''
-  );
+  const [userEmail, setUserEmail] = useState('');
+  const userId = localStorage.getItem('userId');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('userId');
-    if (token !== '') {
+    if (!(!userId || (typeof userId === 'string' && !userId.length))) {
       fetch(`http://3.36.65.166:8000/users/info`, {
         method: 'GET',
         headers: {
@@ -23,20 +20,19 @@ function Gnb() {
       })
         .then(res => res.json())
         .then(data => {
-          setUserId(data.userEmail);
+          setUserEmail(data.userEmail);
         });
     }
-  }, []);
+  }, [userId]);
 
   const logout = () => {
-    setUserId('');
+    setUserEmail('');
     localStorage.setItem('userId', '');
-    setUserToken('');
     navigate(`/`);
   };
 
   const goToHome = () => {
-    userToken === '' ? navigate(`/`) : navigate(`/main`);
+    userId === '' ? navigate(`/`) : navigate(`/main`);
   };
 
   const goToMain = () => {
@@ -50,14 +46,14 @@ function Gnb() {
   return (
     <GnbSection>
       <div onClick={goToHome}>YOUNGSEO BIT</div>
-      {userToken !== '' ? (
+      {userId !== '' ? (
         <>
           <MenuList>
             <li onClick={goToMain}>입출금</li>
             <li onClick={goToDetail}>입출금 내역</li>
           </MenuList>
           <LoginList>
-            <li>{userId}</li>
+            <li>{userEmail}</li>
             <FiPower className="icon" onClick={logout} />
           </LoginList>
         </>

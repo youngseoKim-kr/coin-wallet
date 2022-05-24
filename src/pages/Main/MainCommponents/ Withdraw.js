@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import NoCoinInfo from './NoCoinInfo';
 import styled from 'styled-components';
+import notaionConversion from '../../../utils/ notationConversion';
 
 function Withdraw(props) {
   const [coinAppraisalAmount, setcoinAppraisalAmount] = useState(0.0);
@@ -38,10 +39,9 @@ function Withdraw(props) {
     //보유수량보다 작은 값을 입력시 평가 금액에 넣어준다.
     else if (Number(e.target.value) <= props.coinsInfo.quantity) {
       setIsCoinAmount(true);
-      let price = (props.coinsInfo.price * Number(e.target.value))
-        .toString()
-        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-        .substr(0, 15);
+      let price = notaionConversion(
+        props.coinsInfo.price * Number(e.target.value)
+      );
       setcoinAppraisalAmount(price);
       setIsCoinValue(true);
       setCoinCount(e.target.value);

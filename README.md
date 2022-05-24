@@ -2,7 +2,7 @@
 
 <br/>
 
-[![virtual asset wallet](https://i.ytimg.com/an_webp/vgL40S1QpMk/mqdefault_6s.webp?du=3000&sqp=COuZq5QG&rs=AOn4CLBcXGkyy4bLqWka0Ti8KT3kKT9YBQ)](https://youtu.be/vgL40S1QpMk)
+[![virtual asset wallet](https://i.ytimg.com/an_webp/vgL40S1QpMk/mqdefault_6s.webp?du=3000&sqp=CJ7ZsJQG&rs=AOn4CLBB3TkHeZpgy55kOHsZVmwAnlmxVQ)](https://youtu.be/vgL40S1QpMk)
 
 <br/>
 

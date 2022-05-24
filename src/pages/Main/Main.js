@@ -1,5 +1,5 @@
-import MainLeftSection from './MainLeftSection';
-import MainRightSection from './MainRightSection';
+import MainLeftSection from './MainCoinList';
+import MainRightSection from './MainMenuSection';
 import { GlobalContextProvider } from './Context';
 import styled from 'styled-components';
 

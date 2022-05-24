@@ -1,15 +1,9 @@
 import styled from 'styled-components';
+import notaionConversion from '../../utils/ notationConversion';
 
 function DetailListCard(props) {
-  const ValuationAmount = (props.price * props.quantity)
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    .substr(0, 15);
-
-  const holdingQuantity = props.quantity
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    .substr(0, 15);
+  const ValuationAmount = notaionConversion(props.price * props.quantity);
+  const holdingQuantity = notaionConversion(props.quantity);
 
   return (
     <TableList>

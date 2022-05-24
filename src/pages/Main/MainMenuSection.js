@@ -5,7 +5,7 @@ import DepositWithdraw from './MainCommponents/DepositWithdraw';
 import { CoinInfoContext } from './Context';
 import styled from 'styled-components';
 
-function MainRightSection() {
+function MainMenuSection() {
   const [className, setClassName] = useState([true, false, false]);
   const [coinsInfo, setCoinsInfo] = useState({});
   const [section, setSection] = useState(0);
@@ -90,4 +90,4 @@ const RightMenuBar = styled.ul`
   }
 `;
 
-export default MainRightSection;
+export default MainMenuSection;
