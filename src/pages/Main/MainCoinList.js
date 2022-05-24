@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, useContext } from 'react';
 import { FiSearch } from 'react-icons/fi';
-import LeftCoinCard from './LeftCoinCard';
+import CoinListCard from './CoinListCard';
 import { CoinInfoDispatchContext } from './Context';
 import styled from 'styled-components';
+import notaionConversion from '../../utils/ notationConversion';
 
-function MainLeftSection() {
+function MainCoinList() {
   const [searchCoinInfo, setSearchCoinInfo] = useState([]);
   const [allCoinInfo, setAllCoinInfo] = useState([]);
   const [myCoin, setMyCoin] = useState([]);
@@ -19,9 +20,7 @@ function MainLeftSection() {
   //총보유자산 구하기
   const MoneyList = allCoinInfo.map(value => value.price * value.quantity);
   const MoneyAll = MoneyList.reduce((pre, current) => pre + current, 0);
-  const totalAssets = MoneyAll.toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    .substr(0, 15);
+  const totalAssets = notaionConversion(MoneyAll);
 
   const searchCoin = () => {
     const searchName = inputCoinName.current.value.toUpperCase();
@@ -142,7 +141,7 @@ function MainLeftSection() {
           <tbody>
             {searchCoinInfo.map((item, index) => {
               return (
-                <LeftCoinCard
+                <CoinListCard
                   key={index}
                   id={item.coins_blockchain_types_id}
                   asset_id={item.asset_id}
@@ -229,4 +228,4 @@ const LeftTable = styled.div`
   overflow: scroll;
 `;
 
-export default MainLeftSection;
+export default MainCoinList;

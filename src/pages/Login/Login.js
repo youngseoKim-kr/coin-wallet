@@ -60,7 +60,6 @@ function Login() {
   const handleLogin = () => {
     fetch(`http://3.36.65.166:8000/users/login`, {
       method: 'POST',
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -84,7 +83,6 @@ function Login() {
           alert('로그인 성공!');
           localStorage.setItem('userId', result.access_token);
           navigate('/main');
-          window.location.reload();
         }
       });
   };

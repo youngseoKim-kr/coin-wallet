@@ -3,30 +3,24 @@ import styled from 'styled-components';
 function Footer() {
   return (
     <FooterSection>
-      <FooterWrapper>
-        <FooterTitle>2018-2021 YOUNGSEO All Right Reserved</FooterTitle>
-      </FooterWrapper>
+      <Copyright>2018-2021 YOUNGSEO All Right Reserved</Copyright>
     </FooterSection>
   );
 }
 
-const FooterSection = styled.section`
-  width: 100%;
-  height: 25px;
-`;
-
-const FooterWrapper = styled.div`
+const FooterSection = styled.footer`
   width: 100%;
   max-width: 1200px;
-  line-height: 25px;
+  height: 25px;
   margin: auto;
-  background-color: #6658d3;
+  background-color: ${props => props.theme.blue};
+  line-height: 25px;
 `;
 
-const FooterTitle = styled.footer`
-  color: white;
-  font-size: 13px;
+const Copyright = styled.p`
   text-align: center;
+  font-size: 13px;
+  color: white;
 `;
 
 export default Footer;
