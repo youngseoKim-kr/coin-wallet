@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useContext } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import CoinListCard from './CoinListCard';
 import { CoinInfoDispatchContext } from './Context';
+import { Cookies } from 'react-cookie';
 import styled from 'styled-components';
 import notaionConversion from '../../utils/ notationConversion';
 
@@ -16,6 +17,8 @@ function MainCoinList() {
   const CoinInfoDispatch = useContext(CoinInfoDispatchContext);
 
   const inputCoinName = useRef();
+
+  const cookies = new Cookies();
 
   //총보유자산 구하기
   const MoneyList = allCoinInfo.map(value => value.price * value.quantity);
@@ -55,11 +58,11 @@ function MainCoinList() {
     }
 
     //클릭한 곳의 주소값 받아오기
-    fetch(`http://3.36.65.166:8000/assets/address`, {
+    fetch(`${process.env.REACT_APP_SERVICE_PORT}/assets/address`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        access_token: localStorage.getItem('userId'),
+        access_token: cookies.get('userId'),
       },
       body: JSON.stringify({
         coinId: coinArrayInfo.coin_id,
@@ -75,11 +78,11 @@ function MainCoinList() {
   };
 
   useEffect(() => {
-    fetch(`http://3.36.65.166:8000/assets`, {
+    fetch(`${process.env.REACT_APP_SERVICE_PORT}/assets`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        access_token: localStorage.getItem('userId'),
+        access_token: cookies.get('userId'),
       },
     })
       .then(res => res.json())

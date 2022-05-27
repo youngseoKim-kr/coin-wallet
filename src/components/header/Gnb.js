@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiPower } from 'react-icons/fi';
+import { Cookies } from 'react-cookie';
 import styled from 'styled-components';
 
 function Gnb() {
   const [userEmail, setUserEmail] = useState('');
-  const userId = localStorage.getItem('userId');
 
   const navigate = useNavigate();
 
+  const cookies = new Cookies();
+  const userId = cookies.get('userId');
+
   useEffect(() => {
     if (!(!userId || (typeof userId === 'string' && !userId.length))) {
-      fetch(`http://3.36.65.166:8000/users/info`, {
+      fetch(`${process.env.REACT_APP_SERVICE_PORT}/users/info`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          access_token: localStorage.getItem('userId'),
+          access_token: cookies.get('userId'),
         },
       })
         .then(res => res.json())
@@ -27,7 +30,7 @@ function Gnb() {
 
   const logout = () => {
     setUserEmail('');
-    localStorage.setItem('userId', '');
+    cookies.set('userId', '');
     navigate(`/`);
   };
 
@@ -46,7 +49,7 @@ function Gnb() {
   return (
     <GnbSection>
       <div onClick={goToHome}>YOUNGSEO BIT</div>
-      {userId !== '' ? (
+      {userId ? (
         <>
           <MenuList>
             <li onClick={goToMain}>입출금</li>

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import NoCoinInfo from './NoCoinInfo';
+import { Cookies } from 'react-cookie';
 import styled from 'styled-components';
 import notaionConversion from '../../../utils/ notationConversion';
 
-function Withdraw(props) {
+function Withdraw({ coinsInfo }) {
   const [coinAppraisalAmount, setcoinAppraisalAmount] = useState(0.0);
   const [isCoinAmount, setIsCoinAmount] = useState(true);
   const [isCoinValue, setIsCoinValue] = useState(true);
@@ -12,10 +13,12 @@ function Withdraw(props) {
   const inputRef = useRef();
   const addressInputRef = useRef();
 
+  const cookies = new Cookies();
+
   //props 값이 없으면 split를 못하는 오류 방지
   let CoinEnglishName = '';
-  if (props.coinsInfo !== '') {
-    CoinEnglishName = props.coinsInfo.coin_name.split(' ');
+  if (coinsInfo !== '') {
+    CoinEnglishName = coinsInfo.coin_name.split(' ');
   }
 
   const checkAmount = e => {
@@ -37,11 +40,9 @@ function Withdraw(props) {
       setIsCoinValue(false);
     }
     //보유수량보다 작은 값을 입력시 평가 금액에 넣어준다.
-    else if (Number(e.target.value) <= props.coinsInfo.quantity) {
+    else if (Number(e.target.value) <= coinsInfo.quantity) {
       setIsCoinAmount(true);
-      let price = notaionConversion(
-        props.coinsInfo.price * Number(e.target.value)
-      );
+      let price = notaionConversion(coinsInfo.price * Number(e.target.value));
       setcoinAppraisalAmount(price);
       setIsCoinValue(true);
       setCoinCount(e.target.value);
@@ -62,15 +63,15 @@ function Withdraw(props) {
       isCoinAmount !== false &&
       addressValue !== ''
     ) {
-      fetch(`http://3.36.65.166:8000/withdrawals`, {
+      fetch(`${process.env.REACT_APP_SERVICE_PORT}/withdrawals`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          access_token: localStorage.getItem('userId'),
+          access_token: cookies.get('userId'),
         },
         body: JSON.stringify({
-          assetId: props.coinsInfo.asset_id,
-          blockchainTypeId: props.coinsInfo.blockchain_type_id,
+          assetId: coinsInfo.asset_id,
+          blockchainTypeId: coinsInfo.blockchain_type_id,
           withdrawalAddress: addressValue,
           quantity: Number(inputValue),
         }),
@@ -89,22 +90,22 @@ function Withdraw(props) {
   //출금이 눌린 경우에서 다른 코인을 선택하면 출금 수량, 평가금액에 적힌 값 초기화
   useEffect(() => {
     //props 값이 없으면 초기화 시키지 않는다.
-    if (props.coinsInfo !== '') {
+    if (coinsInfo !== '') {
       inputRef.current.value = '';
       setIsCoinAmount(true);
       setcoinAppraisalAmount(0);
     }
-  }, [props]);
+  }, [coinsInfo]);
 
   return (
     <>
-      {props.coinsInfo === '' ? (
+      {coinsInfo === '' ? (
         <NoCoinInfo />
       ) : (
         <WithdrawSection>
           <WithdrawHeader>
             <span>블록체인 타입 선택</span>
-            <span>{props.coinsInfo.type_name}</span>
+            <span>{coinsInfo.type_name}</span>
           </WithdrawHeader>
           <WithdrawAddress>
             <span>출금주소</span>
@@ -126,12 +127,12 @@ function Withdraw(props) {
             <AppraisalAmount>
               <div>평가금액</div>
               {isCoinAmount === true ? (
-                isCoinValue == true ? (
+                isCoinValue === true ? (
                   <div>₩ {coinAppraisalAmount}</div>
                 ) : (
                   <span className="alret">올바른 값을 입력해 주세요</span>
                 )
-              ) : isCoinValue == true ? (
+              ) : isCoinValue === true ? (
                 <span className="alret">출금 가능 한도를 초과하였습니다</span>
               ) : (
                 <span className="alret">올바른 값을 입력해 주세요</span>

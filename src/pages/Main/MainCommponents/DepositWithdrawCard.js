@@ -1,26 +1,29 @@
 import styled from 'styled-components';
 import notaionConversion from '../../../utils/ notationConversion';
 
-function DepositWithdrawCard(props) {
-  const ValuationAmount = notaionConversion(props.price * props.quantity);
-  const holdingQuantity = notaionConversion(props.quantity);
+function DepositWithdrawCard({
+  price,
+  quantity,
+  division,
+  status,
+  create,
+  address,
+}) {
+  const ValuationAmount = notaionConversion(price * quantity);
+  const holdingQuantity = notaionConversion(quantity);
 
   return (
     <List>
-      <li className="division">{props.division}</li>
+      <li className="division">{division}</li>
       <li className="quantity">{holdingQuantity}</li>
       <li className="price">₩ {ValuationAmount}</li>
       <div className="statusSection">
-        <li className="status">{props.status}</li>
-        {props.status === '진행' || props.status === '대기' ? (
-          <button>취소</button>
-        ) : (
-          ''
-        )}
+        <li className="status">{status}</li>
+        {status === '진행' || status === '대기' ? <button>취소</button> : ''}
       </div>
       <div className="address">
-        <li className="create">{props.create}</li>
-        <li className="addressInput">{props.address}</li>
+        <li className="create">{create}</li>
+        <li className="addressInput">{address}</li>
       </div>
     </List>
   );
