@@ -15,7 +15,7 @@
 
 ## DB diagram
 
-<img width="882" alt="DB 스크린샷" src="/images/db.png">
+<img width="882" alt="DB 스크린샷" src="https://raw.githubusercontent.com/youngseoKim-kr/oceans-wallet/main/public/images/db.png?token=GHSAT0AAAAAABPZBOGX7TS2RLW76DGQDOJWYUQSEQA">
 
 <br/>
 
