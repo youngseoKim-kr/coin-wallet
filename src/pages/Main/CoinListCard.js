@@ -1,27 +1,28 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import notaionConversion from '../../utils/ notationConversion';
 
-function MainCoinCard(props) {
+function CoinListCard({
+  id,
+  price,
+  quantity,
+  name,
+  firstClick,
+  isCheck,
+  isSearch,
+  CardClick,
+  type,
+}) {
   const [isChangeColor, setIsChangeColor] = useState(false);
   const [trColor, setTrColor] = useState('');
-
-  const ValuationAmount = (props.price * props.quantity)
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    .substr(0, 15);
-
-  const holdingQuantity = props.quantity
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    .substr(0, 15);
-  const nameSub = props.name.split(' ');
+  const ValuationAmount = notaionConversion(price * quantity);
+  const holdingQuantity = notaionConversion(quantity);
+  const nameSub = name.split(' ');
 
   //보유화폐만 보기 , 검색 시 클릭 된 값 변경
   useEffect(() => {
-    props.firstClick === props.id
-      ? setIsChangeColor(true)
-      : setIsChangeColor(false);
-  }, [props.firstClick, props.isCheck, props.isSearch]);
+    firstClick === id ? setIsChangeColor(true) : setIsChangeColor(false);
+  }, [firstClick, isCheck, isSearch, id]);
 
   useEffect(() => {
     isChangeColor === true ? setTrColor('skyblue') : setTrColor('');
@@ -30,7 +31,7 @@ function MainCoinCard(props) {
   return (
     <TableList
       onClick={() => {
-        props.CardClick(props.id);
+        CardClick(id);
       }}
       style={{ backgroundColor: trColor }}
     >
@@ -38,7 +39,7 @@ function MainCoinCard(props) {
         {nameSub[0]}
         <p>{nameSub[1]}</p>
       </td>
-      <td className="td2">{props.type}</td>
+      <td className="td2">{type}</td>
       <td className="td3">{holdingQuantity}</td>
       <td className="td4">₩ {ValuationAmount}</td>
     </TableList>
@@ -66,4 +67,4 @@ const TableList = styled.tr`
   }
 `;
 
-export default MainCoinCard;
+export default CoinListCard;

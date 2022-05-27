@@ -11,15 +11,15 @@ import { ThemeProvider } from 'styled-components';
 function App() {
   return (
     <BrowserRouter>
-      <Gnb />
       <ThemeProvider theme={theme}>
+        <Gnb />
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/main" element={<Main />} />
           <Route path="/detail" element={<Detail />} />
         </Routes>
+        <Footer />
       </ThemeProvider>
-      <Footer />
     </BrowserRouter>
   );
 }

@@ -3,6 +3,7 @@ import { FiSearch, FiRotateCw, FiFileText } from 'react-icons/fi';
 import DatePicker from 'react-datepicker';
 import Pagination from 'react-js-pagination';
 import CsvDownload from 'react-json-to-csv';
+import { Cookies } from 'react-cookie';
 import DetailListCard from './DetailListCard';
 import styled from 'styled-components';
 
@@ -31,6 +32,8 @@ function Detail() {
   ]);
   const [searchName, setSearchName] = useState('');
 
+  const cookies = new Cookies();
+
   const coinRef = useRef();
 
   const checkList = ['입금', '출금', '전체'];
@@ -53,11 +56,11 @@ function Detail() {
   };
 
   const changeBackgroundColor = e => {
-    const id = e.target.id;
+    const id = Number(e.target.id);
     const result = isCheck.slice();
 
     for (let i = 0; i < result.length; i++) {
-      i == id ? (result[i] = true) : (result[i] = false);
+      i === id ? (result[i] = true) : (result[i] = false);
     }
     setIsCheck(result);
   };
@@ -74,6 +77,7 @@ function Detail() {
     result[1] = endDate;
     result[2] = detailTypeName;
     setReDate(result);
+    setPage(1);
   };
 
   const searchNameList = () => {
@@ -90,9 +94,11 @@ function Detail() {
 
   const changeState = () => {
     isStatus === false ? setIsStatus(true) : setIsStatus(false);
+    setPage(1);
   };
   const setClickType = () => {
     isRefresh === false ? setIsRefresh(true) : setIsRefresh(false);
+    setPage(1);
   };
 
   const setCoinName = e => {
@@ -104,12 +110,12 @@ function Detail() {
     isStatus === true ? (statusName = '진행') : (statusName = '');
 
     fetch(
-      `http://3.36.65.166:8000/details?pageCount=${page}&startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}&search=${searchCoinName}`,
+      `${process.env.REACT_APP_SERVICE_PORT}/details?pageCount=${page}&startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}&search=${searchCoinName}`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          access_token: localStorage.getItem('userId'),
+          access_token: cookies.get('userId'),
         },
       }
     )
@@ -119,12 +125,12 @@ function Detail() {
         setTotalPage(data.detailTotalPageCount[0].total_row);
       });
     fetch(
-      `http://3.36.65.166:8000/details?startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}&search=${searchCoinName}`,
+      `${process.env.REACT_APP_SERVICE_PORT}/details?startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}&search=${searchCoinName}`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          access_token: localStorage.getItem('userId'),
+          access_token: cookies.get('userId'),
         },
       }
     )

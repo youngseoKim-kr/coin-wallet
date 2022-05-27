@@ -1,33 +1,32 @@
 import styled from 'styled-components';
+import notaionConversion from '../../utils/ notationConversion';
 
-function DetailListCard(props) {
-  const ValuationAmount = (props.price * props.quantity)
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    .substr(0, 15);
-
-  const holdingQuantity = props.quantity
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
-    .substr(0, 15);
+function DetailListCard({
+  division,
+  name,
+  type,
+  status,
+  create,
+  address,
+  price,
+  quantity,
+}) {
+  const ValuationAmount = notaionConversion(price * quantity);
+  const holdingQuantity = notaionConversion(quantity);
 
   return (
     <TableList>
-      <td>{props.division}</td>
-      <td>{props.name}</td>
-      <td>{props.type}</td>
+      <td>{division}</td>
+      <td>{name}</td>
+      <td>{type}</td>
       <td>{holdingQuantity}</td>
       <td>₩ {ValuationAmount}</td>
       <td>
-        {props.status} <br />
-        {props.status === '진행' || props.status === '대기' ? (
-          <button>취소</button>
-        ) : (
-          ''
-        )}
+        {status} <br />
+        {status === '진행' || status === '대기' ? <button>취소</button> : ''}
       </td>
-      <td className="address">{props.address}</td>
-      <td>{props.create}</td>
+      <td className="address">{address}</td>
+      <td>{create}</td>
     </TableList>
   );
 }
