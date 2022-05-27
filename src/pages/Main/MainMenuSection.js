@@ -15,13 +15,13 @@ function MainMenuSection() {
   const menuName = ['입금', '출금', '입출금 내역'];
 
   const classNameChange = e => {
-    const id = e.target.id;
+    const id = Number(e.target.id);
     //선택한 메뉴에 따라 다른 페이지를 보여주기 위해 id를 넣어줌
-    setSection(Number(id));
+    setSection(id);
     const result = className.slice();
 
     for (let i = 0; i < result.length; i++) {
-      i == id ? (result[i] = true) : (result[i] = false);
+      i === id ? (result[i] = true) : (result[i] = false);
     }
     setClassName(result);
   };

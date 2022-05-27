@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 import styled from 'styled-components';
 
 function Login() {
@@ -13,6 +14,8 @@ function Login() {
   const pwInputBox = useRef();
 
   const navigate = useNavigate();
+
+  const cookies = new Cookies();
 
   const inputUserId = e => {
     setUserId(e.target.value);
@@ -58,7 +61,7 @@ function Login() {
   };
 
   const handleLogin = () => {
-    fetch(`http://3.36.65.166:8000/users/login`, {
+    fetch(`${process.env.REACT_APP_SERVICE_PORT}/users/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,7 +84,7 @@ function Login() {
           clearInput();
         } else {
           alert('로그인 성공!');
-          localStorage.setItem('userId', result.access_token);
+          cookies.set('userId', result.access_token);
           navigate('/main');
         }
       });

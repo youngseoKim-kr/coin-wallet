@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import { FiSearch, FiRotateCw, FiFileText } from 'react-icons/fi';
 import Pagination from 'react-js-pagination';
 import CsvDownload from 'react-json-to-csv';
+import { Cookies } from 'react-cookie';
 import DepositWithdrawCard from './DepositWithdrawCard';
 import styled from 'styled-components';
 
@@ -13,13 +14,12 @@ let year = now.getFullYear();
 let month = ('00' + now.getMonth()).slice(-2);
 let day = ('00' + now.getDate()).slice(-2);
 
-let nowResult = year + '.' + month + '.' + day;
-
-function DepositWithdraw(props) {
+function DepositWithdraw({ coinsInfo }) {
   const [depositWithdrawData, setDepositWithdrawData] = useState([]);
   const [startDate, setStartDate] = useState(
     new Date(`${year}.${month}.${day}`)
   );
+
   const [endDate, setEndDate] = useState(new Date());
   const [isCheck, setIsCheck] = useState([false, false, true]);
   const [isStatus, setIsStatus] = useState(false);
@@ -32,6 +32,8 @@ function DepositWithdraw(props) {
     new Date(),
     '',
   ]);
+
+  const cookies = new Cookies();
 
   const checkList = ['입금', '출금', '전체'];
 
@@ -49,12 +51,13 @@ function DepositWithdraw(props) {
     reData[1].getDate();
 
   const changeBackgroundColor = e => {
-    const id = e.target.id;
+    const id = Number(e.target.id);
     const result = isCheck.slice();
 
     for (let i = 0; i < result.length; i++) {
-      i == id ? (result[i] = true) : (result[i] = false);
+      i === id ? (result[i] = true) : (result[i] = false);
     }
+
     setIsCheck(result);
   };
 
@@ -74,6 +77,7 @@ function DepositWithdraw(props) {
     result[1] = endDate;
     result[2] = detailTypeName;
     setReDate(result);
+    setPage(1);
   };
 
   //초기화 버튼 클릭시
@@ -85,23 +89,25 @@ function DepositWithdraw(props) {
 
   const changeState = () => {
     isStatus === false ? setIsStatus(true) : setIsStatus(false);
+    setPage(1);
   };
   const setClickType = () => {
     isRefresh === false ? setIsRefresh(true) : setIsRefresh(false);
+    setPage(1);
   };
 
   useEffect(() => {
     let statusName = '';
     isStatus === true ? (statusName = '진행') : (statusName = '');
 
-    if (props.coinsInfo !== '') {
+    if (coinsInfo !== '') {
       fetch(
-        `http://3.36.65.166:8000/details?coinId=${props.coinsInfo.coin_id}&blockchainTypeId=${props.coinsInfo.blockchain_type_id}&pageCount=${page}&startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}`,
+        `${process.env.REACT_APP_SERVICE_PORT}/details?coinId=${coinsInfo.coin_id}&blockchainTypeId=${coinsInfo.blockchain_type_id}&pageCount=${page}&startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}`,
         {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            access_token: localStorage.getItem('userId'),
+            access_token: cookies.get('userId'),
           },
         }
       )
@@ -111,12 +117,12 @@ function DepositWithdraw(props) {
           setTotalPage(data.detailTotalPageCount[0].total_row);
         });
       fetch(
-        `http://3.36.65.166:8000/details?coinId=${props.coinsInfo.coin_id}&blockchainTypeId=${props.coinsInfo.blockchain_type_id}&startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}`,
+        `${process.env.REACT_APP_SERVICE_PORT}/details?coinId=${coinsInfo.coin_id}&blockchainTypeId=${coinsInfo.blockchain_type_id}&startDate=${startDay}&endDate=${EndDay}&detailType=${reData[2]}&status=${statusName}`,
         {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            access_token: localStorage.getItem('userId'),
+            access_token: cookies.get('userId'),
           },
         }
       )
@@ -125,11 +131,11 @@ function DepositWithdraw(props) {
           setCsv(data.detailList);
         });
     }
-  }, [isStatus, props.coinsInfo.coin_id, reData, isRefresh, page]);
+  }, [isStatus, coinsInfo, reData, isRefresh, page]);
 
   return (
     <>
-      {props.coinsInfo === '' ? (
+      {coinsInfo === '' ? (
         <NoCoinInfo />
       ) : (
         <DepositWithdrawSection>
