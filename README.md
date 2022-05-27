@@ -4,7 +4,7 @@
 
 <img width="882" alt="youtube" src="https://raw.githubusercontent.com/youngseoKim-kr/oceans-wallet/main/public/images/mqdefault_6s%20(1).webp?token=GHSAT0AAAAAABPZBOGWYYCWQ6MJB7VR5WQ2YUQSKRA">
 
-[virtual asset wallet 구현영상 보러 가기](https://raw.githubusercontent.com/youngseoKim-kr/oceans-wallet/main/public/images/mqdefault_6s%20(1).webp?token=GHSAT0AAAAAABPZBOGWYYCWQ6MJB7VR5WQ2YUQSKRA)
+[virtual asset wallet 구현영상 보러 가기]([https://raw.githubusercontent.com/youngseoKim-kr/oceans-wallet/main/public/images/mqdefault_6s%20(1).webp?token=GHSAT0AAAAAABPZBOGWYYCWQ6MJB7VR5WQ2YUQSKRA](https://youtu.be/vgL40S1QpMk))
 
 <br/>
 
