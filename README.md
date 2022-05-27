@@ -2,7 +2,8 @@
 
 <br/>
 
-[![virtual asset wallet]](https://youtu.be/vgL40S1QpMk](https://raw.githubusercontent.com/youngseoKim-kr/oceans-wallet/main/public/images/mqdefault_6s%20(1).webp?token=GHSAT0AAAAAABPZBOGWYYCWQ6MJB7VR5WQ2YUQSKRA)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vgL40S1QpMk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 <br/>
 
