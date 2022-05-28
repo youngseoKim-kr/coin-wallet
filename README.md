@@ -2,7 +2,7 @@
 
 <br/>
 
-<img width="320" alt="youtube" src="https://raw.githubusercontent.com/youngseoKim-kr/oceans-wallet/main/public/images/mqdefault_6s%20(1).webp?token=GHSAT0AAAAAABPZBOGWO3IQ3P6HZGQJGAJCYUQSQ7A">
+<img width="320" alt="youtube" src="/public/images/mqdefault_6s%20(1).webp">
 
 [virtual asset wallet 구현영상 보러 가기](https://youtu.be/vgL40S1QpMk)
 
@@ -28,6 +28,6 @@
 
 ## DB diagram
 
-<img width="882" alt="DB 스크린샷" src="https://raw.githubusercontent.com/youngseoKim-kr/oceans-wallet/main/public/images/db.png?token=GHSAT0AAAAAABPZBOGXGAUPUMQ3275X3SNAYUQSQ3A">
+<img width="882" alt="DB 스크린샷" src="/public/images/db.png">
 
 <br/>
