@@ -31,15 +31,15 @@ function Gnb() {
   const logout = () => {
     setUserEmail('');
     cookies.set('userId', '');
-    navigate(`/`);
+    navigate(`/login`);
   };
 
   const goToHome = () => {
-    userId === '' ? navigate(`/`) : navigate(`/main`);
+    userId === '' ? navigate(`/login`) : navigate(`/`);
   };
 
   const goToMain = () => {
-    navigate(`/main`);
+    navigate(`/`);
   };
 
   const goToDetail = () => {

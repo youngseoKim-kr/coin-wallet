@@ -85,7 +85,7 @@ function Login() {
         } else {
           alert('로그인 성공!');
           cookies.set('userId', result.access_token);
-          navigate('/main');
+          navigate('/');
         }
       });
   };
