@@ -4,6 +4,7 @@ import Reset from './styles/Reset';
 import Common from './styles/Common';
 import GlobalFont from './styles/font/font.js';
 import App from './App';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -11,6 +12,8 @@ root.render(
     <Reset />
     <Common />
     <GlobalFont />
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
